@@ -16,6 +16,11 @@
 //= require bootstrap
 //= require angular-ui-bootstrap
 
-//= require turbolinks
+//= require homepage/homepage_app
+
 //= require_tree .
 //= require_self
+
+$( document ).ready(function() {
+  console.log('jquery working');
+});
