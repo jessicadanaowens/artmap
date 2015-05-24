@@ -668,7 +668,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
  <br />Enter a negative number to stop the interval.
  </div>
  </file>
- <file name="script.js">
+ <file name="googlePlace.js">
  function CarouselDemoCtrl($scope) {
   $scope.myInterval = 5000;
 }
@@ -3122,7 +3122,7 @@ angular.module('ui.bootstrap.tabs', [])
  </tabset>
  </div>
  </file>
- <file name="script.js">
+ <file name="googlePlace.js">
  function TabsDemoCtrl($scope) {
       $scope.items = [
         { title:"Dynamic Title 1", content:"Dynamic Item 0" },
