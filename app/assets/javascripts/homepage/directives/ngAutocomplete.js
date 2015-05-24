@@ -1,10 +1,9 @@
 angular.module( "ngAutocomplete", [])
-  .directive('ngAutocomplete', function($parse) {
+  .directive('ngAutocomplete', ['$window', function($parse, $window) {
     return {
 
       scope: {
         details: '=',
-        ngAutocomplete: '=',
         options: '='
       },
 
@@ -52,12 +51,18 @@ angular.module( "ngAutocomplete", [])
         scope.watchOptions = function () {
           return scope.options
         };
+
         scope.$watch(scope.watchOptions, function () {
           initOpts()
           newAutocomplete()
           element[0].value = '';
           scope.ngAutocomplete = element.val();
         }, true);
+
+        scope.$watch(function(scope) {
+          if (scope.details && scope.details.formatted_address) {
+            window.location.href = 'https://www.google.com/';          }
+        })
       }
     };
-  });
+  }]);
