@@ -17,6 +17,8 @@
 //= require angular-ui-bootstrap
 
 //= require homepage/homepage_app
+//= require homepage/script
+//= require homepage/ngAutocomplete
 
 //= require_tree .
 //= require_self
