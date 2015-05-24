@@ -1141,7 +1141,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       }, 0 , false);
     };
 
-    // Listen for focus requests from popup directive
+    // Listen for focus features from popup directive
     $scope.$on('datepicker.focus', focusElement);
 
     $scope.keydown = function( evt ) {
