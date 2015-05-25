@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Friend</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key="></script>
+
+  <%= csrf_meta_tags %>
+</head>
+
+<body ng-app="mapApp" ng-controller="mapCtrl" ng-init="init()">
+  <div id="map-canvas"></div>
+</body>

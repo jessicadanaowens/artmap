@@ -1,16 +1,27 @@
-<!--<body ng-app="homepageApp" ng-controller="homepageCtrl">-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Friend</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
 
-<!--<h1>{{test}}</h1>-->
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
 
-<!--<input type="text" ng-model="selected" typeahead="state for state in getStates() | filter:$viewValue | limitTo:8" class="form-control">-->
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
+  <%= csrf_meta_tags %>
+</head>
 
 
-
-<!--<h3> What is going on</h3>-->
-<div ng-app="googlePlace" ng-controller="googlePlaceCtrl">
+<body ng-app="googlePlace" ng-controller="googlePlaceCtrl">
   <div class="form-group move-down">
     <label for="Autocomplete2">Find people and stuff to do</label>
     <input type="text" id="Autocomplete2" class="form-control" ng-autocomplete options="options" details="details"/>
+
+    <h1>{{details}}</h1>
   </div>
-</div>
+</body>
+
+
 

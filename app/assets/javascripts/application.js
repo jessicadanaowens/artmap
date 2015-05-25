@@ -14,11 +14,10 @@
 //= require jquery_ujs
 //= require angular
 //= require bootstrap
-//= require angular-ui-bootstrap
 
-//= require homepage/homepage_app
 //= require homepage/googlePlace.js
 //= require homepage/directives/ngAutocomplete
+//= require map/map_app
 
 //= require_tree .
 //= require_self
