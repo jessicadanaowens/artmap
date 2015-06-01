@@ -2,6 +2,9 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
   function ($scope) {
 
     $scope.countryRestrict = { 'country': 'us' };
+    $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
+    $scope.markers = [];
+
     $scope.init = function () {
       $scope.mapOptions =  {
         zoom: $scope.countries['us'].zoom,
@@ -18,7 +21,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
 
       // Create the autocomplete object and associate it with the UI input control.
       // Restrict the search to the default country, and to place type "cities".
-      debugger;
 
       $scope.autocomplete = new google.maps.places.Autocomplete(
         /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
@@ -43,11 +45,52 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);
         $scope.map.setZoom(15);
-//        search();
+        $scope.search();
         //add search function to search for carpools after a place has been selected
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }
+    };
+
+    //search for rideshares in the selected city, within the viewport of the map
+    $scope.search = function search() {
+      var search = {
+        bounds: $scope.map.getBounds(),
+        types: ['lodging']
+      };
+
+      $scope.places.nearbySearch(search, function(results, status) {
+        debugger;
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+//          clearResults();
+//          clearMarkers();
+          // Create a marker for each hotel found, and
+          // assign a letter of the alphabetic to each marker icon.
+          for (var i = 0; i < results.length; i++) {
+            debugger;
+            var markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
+            var markerIcon = $scope.markerPath + markerLetter + '.png';
+            // Use marker animation to drop the icons incrementally on the map.
+            $scope.markers[i] = new google.maps.Marker({
+              position: results[i].geometry.location,
+              animation: google.maps.Animation.DROP,
+              icon: markerIcon
+            });
+            // If the user clicks a hotel marker, show the details of that hotel
+            // in an info window.
+            $scope.markers[i].placeResult = results[i];
+//            google.maps.event.addListener($scope.markers[i], 'click', showInfoWindow);
+            setTimeout($scope.dropMarker(i), i * 100);
+//            addResult(results[i], i);
+          }
+        }
+      });
+    }
+
+    $scope.dropMarker = function dropMarker(i) {
+      return function() {
+        $scope.markers[i].setMap($scope.map);
+      };
     };
 
     // [START region_setcountry]
