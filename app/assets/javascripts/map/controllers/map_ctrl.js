@@ -1,5 +1,8 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope',
-  function ($scope) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat',
+  function ($scope, lon, lat) {
+
+    $scope.lon = lon;
+    $scope.lat = lat;
 
     $scope.countryRestrict = { 'country': 'us' };
     $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
@@ -7,8 +10,8 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
 
     $scope.init = function () {
       $scope.mapOptions =  {
-        zoom: $scope.countries['us'].zoom,
-        center: $scope.countries['us'].center,
+        zoom: 15,
+        center: new google.maps.LatLng($scope.lon, $scope.lat),
         mapTypeControl: false,
         panControl: false,
         zoomControl: false,
@@ -17,10 +20,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
 
       $scope.map = new google.maps.Map(document.getElementById('map-canvas'),
         $scope.mapOptions);
-
-
-      // Create the autocomplete object and associate it with the UI input control.
-      // Restrict the search to the default country, and to place type "cities".
 
       $scope.autocomplete = new google.maps.places.Autocomplete(
         /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
@@ -36,11 +35,13 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
       // Add a DOM event listener to react when the user selects a country.
       google.maps.event.addDomListener(document.getElementById('country'), 'change',
         $scope.setAutocompleteCountry);
+
     };
 
     // When the user selects a city, get the place details for the city and
 // zoom the map in on the city.
     $scope.onPlaceChanged = function onPlaceChanged() {
+      debugger;
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);

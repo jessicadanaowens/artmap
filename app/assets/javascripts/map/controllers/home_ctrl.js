@@ -4,7 +4,6 @@ angular.module('mapApp').controller('homeCtrl', ['$scope', '$state',
     $scope.countryRestrict = { 'country': 'us' };
 
     $scope.init = function () {
-
       $scope.autocomplete = new google.maps.places.Autocomplete(
         /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
         {
@@ -18,7 +17,7 @@ angular.module('mapApp').controller('homeCtrl', ['$scope', '$state',
     $scope.onPlaceChanged = function onPlaceChanged() {
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
-        $state.go('map');
+        $state.go('map', {lon: place.geometry.location["A"], lat: place.geometry.location["F"]});
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }

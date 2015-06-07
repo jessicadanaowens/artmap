@@ -8,9 +8,17 @@ angular.module('mapApp', ['ui.router'])
       })
 
       .state('map', {
-        url: '/rides/:city',
+        url: '/rides/:lon/:lat',
         template: JST['map/templates/map'](),
-        controller: 'mapCtrl'
+        controller: 'mapCtrl',
+        resolve: {
+          lon: ['$stateParams', function($stateParams) {
+            return $stateParams.lon;
+          }],
+          lat: ['$stateParams', function($stateParams) {
+            return $stateParams.lat;
+          }]
+        }
     });
 
     $urlRouterProvider.otherwise('');
