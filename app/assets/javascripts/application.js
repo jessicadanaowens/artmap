@@ -14,10 +14,14 @@
 //= require jquery_ujs
 //= require angular
 //= require bootstrap
+//= require angular-ui-router
 
 //= require homepage/googlePlace.js
 //= require homepage/directives/ngAutocomplete
 //= require map/map_app
+
+//= require tilt-jade/runtime
+//= require templates/map
 
 //= require_tree .
 //= require_self

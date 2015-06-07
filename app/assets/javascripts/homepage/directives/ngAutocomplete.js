@@ -61,7 +61,8 @@ angular.module( "ngAutocomplete", [])
 
         scope.$watch(function(scope) {
           if (scope.details && scope.details.formatted_address) {
-            window.location.href = 'https://www.google.com/';          }
+            window.location.href = '/map';
+          }
         })
       }
     };

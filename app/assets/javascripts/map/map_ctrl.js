@@ -60,14 +60,12 @@ angular.module('mapApp').controller('mapCtrl', ['$scope',
       };
 
       $scope.places.nearbySearch(search, function(results, status) {
-        debugger;
         if (status == google.maps.places.PlacesServiceStatus.OK) {
 //          clearResults();
 //          clearMarkers();
           // Create a marker for each hotel found, and
           // assign a letter of the alphabetic to each marker icon.
           for (var i = 0; i < results.length; i++) {
-            debugger;
             var markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
             var markerIcon = $scope.markerPath + markerLetter + '.png';
             // Use marker animation to drop the icons incrementally on the map.

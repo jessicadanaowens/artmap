@@ -21,7 +21,5 @@ group :development, :test do
   gem 'launchy'
 end
 
-
-gem 'haml-rails', '~> 0.7.0'
 gem 'angularjs-rails', '~>1.3.9'
-gem 'angular-file-upload-rails', '~> 1.6.1.2'
+gem 'tilt-jade', '~> 1.2.0'
