@@ -21,7 +21,7 @@
 //= require map/map_app
 
 //= require tilt-jade/runtime
-//= require templates/map
+//= require map/templates/map
 
 //= require_tree .
 //= require_self
