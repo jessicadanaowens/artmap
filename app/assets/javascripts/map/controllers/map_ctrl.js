@@ -1,8 +1,11 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat',
-  function ($scope, lon, lat) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'capturePlaceService',
+  function ($scope, lon, lat, formattedAddress, capturePlaceService) {
 
     $scope.lon = lon;
     $scope.lat = lat;
+    $scope.place = capturePlaceService.getPlace();
+
+    document.getElementById('autocomplete').value = formattedAddress;
 
     $scope.countryRestrict = { 'country': 'us' };
     $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
@@ -35,13 +38,15 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat',
       // Add a DOM event listener to react when the user selects a country.
       google.maps.event.addDomListener(document.getElementById('country'), 'change',
         $scope.setAutocompleteCountry);
+      debugger;
+      $scope.map.panTo($scope.place.geometry.location);
+      $scope.map.setZoom(15);
 
     };
 
     // When the user selects a city, get the place details for the city and
 // zoom the map in on the city.
     $scope.onPlaceChanged = function onPlaceChanged() {
-      debugger;
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);
@@ -55,12 +60,14 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat',
 
     //search for rideshares in the selected city, within the viewport of the map
     $scope.search = function search() {
+      debugger;
       var search = {
         bounds: $scope.map.getBounds(),
         types: ['lodging']
       };
 
       $scope.places.nearbySearch(search, function(results, status) {
+        debugger;
         if (status == google.maps.places.PlacesServiceStatus.OK) {
 //          clearResults();
 //          clearMarkers();
@@ -110,11 +117,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat',
 //      clearMarkers();
     };
 // [END region_setcountry]
-
-
-
-
-
 
     $scope.countries = {
       'au': {
@@ -170,6 +172,4 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat',
         zoom: 5
       }
     };
-
-
   }]);

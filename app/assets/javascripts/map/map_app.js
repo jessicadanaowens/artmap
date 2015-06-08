@@ -8,7 +8,7 @@ angular.module('mapApp', ['ui.router'])
       })
 
       .state('map', {
-        url: '/rides/:lon/:lat',
+        url: '/rides/:lon/:lat/:formattedAddress',
         template: JST['map/templates/map'](),
         controller: 'mapCtrl',
         resolve: {
@@ -17,9 +17,29 @@ angular.module('mapApp', ['ui.router'])
           }],
           lat: ['$stateParams', function($stateParams) {
             return $stateParams.lat;
+          }],
+          formattedAddress: ['$stateParams', function($stateParams) {
+            return $stateParams.formattedAddress;
           }]
         }
-    });
+       })
 
     $urlRouterProvider.otherwise('');
+  })
+
+  .service('capturePlaceService', function() {
+    var capturedPlace = [];
+
+    var capturePlace = function(place) {
+      capturedPlace = place;
+    };
+
+    var getPlace = function() {
+      return capturedPlace
+    }
+
+    return {
+      capturePlace: capturePlace,
+      getPlace: getPlace
+    };
   });
