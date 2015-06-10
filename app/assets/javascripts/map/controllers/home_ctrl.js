@@ -1,5 +1,5 @@
-angular.module('mapApp').controller('homeCtrl', ['$scope', '$state', 'capturePlaceService',
-  function ($scope, $state, capturePlaceService) {
+angular.module('mapApp').controller('homeCtrl', ['$scope', '$state',
+  function ($scope, $state) {
 
     $scope.countryRestrict = { 'country': 'us' };
 
@@ -17,8 +17,7 @@ angular.module('mapApp').controller('homeCtrl', ['$scope', '$state', 'capturePla
     $scope.onPlaceChanged = function onPlaceChanged() {
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
-        $state.go('map', {place: place.geometry.location["A"], lat: place.geometry.location["F"], formattedAddress: place.formatted_address});
-        capturePlaceService.capturePlace(place)
+        $state.go('map', {lon: place.geometry.location["A"], lat: place.geometry.location["F"], formattedAddress: place.formatted_address});
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }

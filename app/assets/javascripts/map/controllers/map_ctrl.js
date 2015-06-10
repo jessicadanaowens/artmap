@@ -1,19 +1,17 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'capturePlaceService',
-  function ($scope, lon, lat, formattedAddress, capturePlaceService) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress',
+  function ($scope, lon, lat, formattedAddress) {
 
-    $scope.lon = lon;
-    $scope.lat = lat;
-    $scope.place = capturePlaceService.getPlace();
-
-    document.getElementById('autocomplete').value = formattedAddress;
-
-    $scope.countryRestrict = { 'country': 'us' };
-    $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
-    $scope.markers = [];
 
     $scope.init = function () {
+      $scope.lon = lon;
+      $scope.lat = lat;
+      $scope.formattedAddress = formattedAddress;
+      $scope.countryRestrict = { 'country': 'us' };
+      $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
+      $scope.markers = [];
+
       $scope.mapOptions =  {
-        zoom: 15,
+        zoom: 8,
         center: new google.maps.LatLng($scope.lon, $scope.lat),
         mapTypeControl: false,
         panControl: false,
@@ -25,27 +23,25 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
         $scope.mapOptions);
 
       $scope.autocomplete = new google.maps.places.Autocomplete(
-        /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
-        {
-          types: ['(cities)'],
-          componentRestrictions: $scope.countryRestrict
-        });
+        (document.getElementById('autocomplete')),
+        { types: ['(cities)'], componentRestrictions: $scope.countryRestrict}
+      );
 
       $scope.places = new google.maps.places.PlacesService($scope.map);
 
       google.maps.event.addListener($scope.autocomplete, 'place_changed', $scope.onPlaceChanged);
 
-      // Add a DOM event listener to react when the user selects a country.
-      google.maps.event.addDomListener(document.getElementById('country'), 'change',
-        $scope.setAutocompleteCountry);
-      debugger;
-      $scope.map.panTo($scope.place.geometry.location);
-      $scope.map.setZoom(15);
+      google.maps.event.addDomListener(document.getElementById('country'), 'change', $scope.setAutocompleteCountry);
 
+      $scope.idleMapListener = google.maps.event.addListener($scope.map, 'idle', function() {
+        $scope.bounds = $scope.map.getBounds();
+        $scope.search();
+        $scope.bounds = undefined;
+        google.maps.event.removeListener($scope.idleMapListener);
+      });
     };
 
-    // When the user selects a city, get the place details for the city and
-// zoom the map in on the city.
+
     $scope.onPlaceChanged = function onPlaceChanged() {
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
@@ -60,14 +56,12 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
 
     //search for rideshares in the selected city, within the viewport of the map
     $scope.search = function search() {
-      debugger;
       var search = {
-        bounds: $scope.map.getBounds(),
+        bounds: $scope.findBounds(),
         types: ['lodging']
       };
 
       $scope.places.nearbySearch(search, function(results, status) {
-        debugger;
         if (status == google.maps.places.PlacesServiceStatus.OK) {
 //          clearResults();
 //          clearMarkers();
@@ -91,7 +85,15 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
           }
         }
       });
-    }
+    };
+
+    $scope.findBounds = function findBounds() {
+      if ($scope.bounds != undefined) {
+        return $scope.bounds;
+      } else {
+        return $scope.map.getBounds();
+      }
+    };
 
     $scope.dropMarker = function dropMarker(i) {
       return function() {
