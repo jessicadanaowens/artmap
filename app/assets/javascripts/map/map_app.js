@@ -22,24 +22,7 @@ angular.module('mapApp', ['ui.router'])
             return $stateParams.formattedAddress;
           }]
         }
-       })
+       });
 
     $urlRouterProvider.otherwise('');
-  })
-
-  .service('capturePlaceService', function() {
-    var capturedPlace = [];
-
-    var capturePlace = function(place) {
-      capturedPlace = place;
-    };
-
-    var getPlace = function() {
-      return capturedPlace
-    }
-
-    return {
-      capturePlace: capturePlace,
-      getPlace: getPlace
-    };
   });

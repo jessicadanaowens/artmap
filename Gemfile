@@ -19,6 +19,8 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'jasmine', '~> 2.3.0'
+  gem 'jasmine-jquery-rails', '~> 2.0.3'
 end
 
 gem 'angularjs-rails', '~>1.3.9'

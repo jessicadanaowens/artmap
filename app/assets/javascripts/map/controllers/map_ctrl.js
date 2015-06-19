@@ -1,8 +1,7 @@
 angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress',
   function ($scope, lon, lat, formattedAddress) {
 
-
-    $scope.init = function () {
+    $scope.init = function init() {
       $scope.lon = lon;
       $scope.lat = lat;
       $scope.formattedAddress = formattedAddress;
@@ -33,7 +32,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
 
       google.maps.event.addDomListener(document.getElementById('country'), 'change', $scope.setAutocompleteCountry);
 
-      $scope.idleMapListener = google.maps.event.addListener($scope.map, 'idle', function() {
+      google.maps.event.addListener($scope.map, 'idle', function() {
         $scope.bounds = $scope.map.getBounds();
         $scope.search();
         $scope.bounds = undefined;
