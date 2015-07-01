@@ -39,6 +39,12 @@ describe('map', function () {
       expect($scope.countryRestrict).toEqual({ 'country': 'us' })
     });
 
+    it('drops markers on the map based on the params', function() {
+      expect($scope.idleMapListener).toBeUndefined();
+      $scope.init();
+      expect($scope.idleMapListener).toBeDefined();
+    });
+
     it("sets up the google Place Service for the map", function() {
       spyOn(google.maps.places, "PlacesService").and.callThrough;
 
@@ -149,5 +155,24 @@ describe('map', function () {
       //
       //expect($scope.markers[1].setMap).toHaveBeenCalledWith($scope.map)
     })
+
+    it('allows the user to create a marker on the map', function() {
+      //$scope.map = 'map';
+      //$scope.$digest()
+      //spyOn(google.maps.event, "addListener")
+      //
+      //$scope.init();
+      //$scope.$digest()
+      //
+      //expect(google.maps.event.addListener).toHaveBeenCalledWith($scope.map);
+    });
+
+    //it('uses the google maps infowindow service to show a form to add a new marker', function() {
+    //  $scope.html = "<table>";
+    //
+    //  spyOn(google.maps, "InfoWindow");
+    //  $scope.init();
+    //  expect(google.maps.InfoWindow).toHaveBeenCalledWith({content: $scope.html})
+    //})
   })
 });
