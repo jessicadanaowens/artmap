@@ -10,17 +10,17 @@ var google = {
     },
     places: {
       Autocomplete: function() {
-        return 'autocomplete'
+        return 'autocomplete';
       },
       PlacesService: function() {
-        return 'places'
+        return 'places';
       }
     },
     LatLng: function(lon, lat) {
       return {A: lon, F: lat}
     },
     Map: function() {
-      return 'map'
+      return 'map';
     }
   }
 

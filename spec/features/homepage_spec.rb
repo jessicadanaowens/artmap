@@ -1,8 +1,14 @@
 require 'rails_helper'
 
-describe "home page", :js => true do
+describe "homepage", :js => true do
   it "displays a search field" do
     visit "/"
-    expect(page).to have_content "Find people and stuff to do"
+
+    fill_in_typeahead 'Enter a city', :with => "De"
+  end
+
+  def fill_in_typeahead(*args)
+    page.execute_script("$('input').unbind('blur')")
+    fill_in args.first, *args[1..-1]
   end
 end

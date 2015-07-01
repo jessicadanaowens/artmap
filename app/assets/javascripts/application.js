@@ -18,7 +18,7 @@
 //= require bootstrap
 //= require angular-ui-router
 
-//= require map/map_app
+//= require map_app
 
 //= require tilt-jade/runtime
 

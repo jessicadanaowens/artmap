@@ -38,6 +38,16 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
         $scope.bounds = undefined;
         google.maps.event.removeListener($scope.idleMapListener);
       });
+
+      google.maps.event.addListener($scope.map, "click", function(event) {
+        $scope.marker = new google.maps.Marker({
+          position: event.latLng,
+          map: $scope.map
+        });
+//        google.maps.event.addListener(marker, "click", function() {
+//          infowindow.open(map, marker);
+//        });
+      });
     };
 
 

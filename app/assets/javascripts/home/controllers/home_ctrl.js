@@ -1,11 +1,12 @@
 angular.module('mapApp').controller('homeCtrl', ['$scope', '$state',
   function ($scope, $state) {
 
-    $scope.countryRestrict = { 'country': 'us' };
-
     $scope.init = function () {
+
+      $scope.countryRestrict = { 'country': 'us' };
+
       $scope.autocomplete = new google.maps.places.Autocomplete(
-        /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+        (document.getElementById('autocomplete')),
         {
           types: ['(cities)'],
           componentRestrictions: $scope.countryRestrict

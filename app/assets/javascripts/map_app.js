@@ -3,7 +3,7 @@ angular.module('mapApp', ['ui.router'])
     $stateProvider
       .state('home', {
         url: '',
-        template: JST['map/templates/home'](),
+        template: JST['home/templates/home'](),
         controller: 'homeCtrl'
       })
 
