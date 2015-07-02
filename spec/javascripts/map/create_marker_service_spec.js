@@ -15,11 +15,15 @@ describe('createMarkerService', function () {
       expect($scope.newMarkerForm).toBeDefined();
       expect($scope.infowindow).toBeDefined();
       expect($scope.setUpNewMarkerService).toBeDefined();
+      expect($scope.markerPath).toBeDefined();
+      expect($scope.markers).toBeDefined();
+      expect($scope.placeMarkersOnMap).toBeDefined();
+      expect($scope.dropMarker).toBeDefined();
     });
   });
 
   describe('markers', function() {
-    it('sets up listeners that creates a marker and open an infoWindow when the user clicks on the map or marker', function() {
+    it('sets up listeners that create markers and open an infoWindow when the user clicks on the map or marker', function() {
       spyOn(google.maps.event, "addListener").and.callThrough();
 
       var map = "map";
@@ -39,6 +43,20 @@ describe('createMarkerService', function () {
       expect($scope.newMarkerForm).toBeDefined();
       expect(google.maps.InfoWindow).toHaveBeenCalledWith({content: $scope.newMarkerForm});
     });
+
+    it('places the markers on the map', function() {
+      createMarkerService.setup($scope);
+
+      spyOn(google.maps, "Marker");
+      spyOn($scope, "dropMarker");
+      results = [{geometry: "geometry", location: "location"}];
+
+      $scope.placeMarkersOnMap(results);
+
+      expect(google.maps.Marker).toHaveBeenCalled();
+      expect($scope.dropMarker).toHaveBeenCalled();
+
+    })
   })
 });
 

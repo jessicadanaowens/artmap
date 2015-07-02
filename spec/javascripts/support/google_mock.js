@@ -1,5 +1,10 @@
 var google = {
   maps: {
+    Animation: {
+      DROP: function() {
+        return true
+      }
+    },
     Marker: function() {
       return true;
     },

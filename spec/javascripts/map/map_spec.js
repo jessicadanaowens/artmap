@@ -3,16 +3,17 @@ describe('map', function () {
 
   var $scope, $controller, newMarkerService, lon, lat, formattedAddress;
 
-  beforeEach(inject(function (_$rootScope_, _$controller_, _createMarkerService_) {
+  beforeEach(inject(function (_$rootScope_, _$controller_, _createMarkerService_, _autocompleteService_) {
     $scope = _$rootScope_.$new();
     $controller = _$controller_;
     createMarkerService = _createMarkerService_;
+    autocompleteService = _autocompleteService_;
 
     lon = 39;
     lat = -104;
     formattedAddress = "Denver, CO 80218";
 
-    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, createMarkerService: createMarkerService});
+    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, createMarkerService: createMarkerService, autocompleteService: autocompleteService});
   }));
 
   describe('initial map load', function () {
@@ -40,7 +41,7 @@ describe('map', function () {
       expect($scope.countryRestrict).toEqual({ 'country': 'us' })
     });
 
-    it('drops markers on the map based on the params', function() {
+    it('creates the map based on the params', function() {
       expect($scope.idleMapListener).toBeUndefined();
       $scope.init();
       expect($scope.idleMapListener).toBeDefined();
@@ -118,12 +119,18 @@ describe('map', function () {
       $scope.init();
 
       expect($scope.setUpNewMarkerService).toBeDefined();
+    });
+
+    it("calls the autocomplete service so that the user can search for places", function() {
+      spyOn(autocompleteService, "setup");
+      $scope.init();
+      expect(autocompleteService.setup).toHaveBeenCalledWith($scope);
+
     })
   });
 
   describe('map functionality', function () {
     it("finds the bounds of the map when they are not defined", function() {
-
       $scope.map = {
         getBounds: function() {
           return true
@@ -138,7 +145,7 @@ describe('map', function () {
 
     });
 
-    it("returns the bounds if they are already defined", function() {
+    it("returns the map bounds if they are already defined", function() {
       $scope.map = {
         getBounds: function() {
           return true
@@ -150,14 +157,6 @@ describe('map', function () {
       $scope.bounds = true;
       $scope.findBounds();
       expect($scope.map.getBounds).not.toHaveBeenCalled();
-    });
-
-    it("drops a marker on the map for each search result", function() {
-      //spyOn($scope.markers, "setMap");
-      //
-      //$scope.dropMarker(1);
-      //
-      //expect($scope.markers[1].setMap).toHaveBeenCalledWith($scope.map)
     });
   });
 });

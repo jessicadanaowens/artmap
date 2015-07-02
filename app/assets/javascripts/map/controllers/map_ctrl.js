@@ -1,16 +1,14 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'createMarkerService',
-  function ($scope, lon, lat, formattedAddress, createMarkerService) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'createMarkerService', 'autocompleteService',
+  function ($scope, lon, lat, formattedAddress, createMarkerService, autocompleteService) {
 
     $scope.init = function init() {
 
       createMarkerService.setup($scope);
+      autocompleteService.setup($scope);
 
       $scope.lon = lon;
       $scope.lat = lat;
       $scope.formattedAddress = formattedAddress;
-      $scope.countryRestrict = { 'country': 'us' };
-      $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
-      $scope.markers = [];
 
       $scope.mapOptions =  {
         zoom: 8,
@@ -23,11 +21,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
 
       $scope.map = new google.maps.Map(document.getElementById('map-canvas'),
         $scope.mapOptions);
-
-      $scope.autocomplete = new google.maps.places.Autocomplete(
-        (document.getElementById('autocomplete')),
-        { types: ['(cities)'], componentRestrictions: $scope.countryRestrict}
-      );
 
       $scope.places = new google.maps.places.PlacesService($scope.map);
 
@@ -42,7 +35,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
         google.maps.event.removeListener($scope.idleMapListener);
       });
 
-      $scope.setUpNewMarkerService($scope.map)
+      $scope.setUpNewMarkerService($scope.map);
     };
 
     $scope.onPlaceChanged = function onPlaceChanged() {
@@ -70,22 +63,8 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
 //          clearMarkers();
           // Create a marker for each hotel found, and
           // assign a letter of the alphabetic to each marker icon.
-          for (var i = 0; i < results.length; i++) {
-            var markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
-            var markerIcon = $scope.markerPath + markerLetter + '.png';
-            // Use marker animation to drop the icons incrementally on the map.
-            $scope.markers[i] = new google.maps.Marker({
-              position: results[i].geometry.location,
-              animation: google.maps.Animation.DROP,
-              icon: markerIcon
-            });
-            // If the user clicks a hotel marker, show the details of that hotel
-            // in an info window.
-            $scope.markers[i].placeResult = results[i];
-//            google.maps.event.addListener($scope.markers[i], 'click', showInfoWindow);
-            setTimeout($scope.dropMarker(i), i * 100);
-//            addResult(results[i], i);
-          }
+
+          $scope.placeMarkersOnMap(results);
         }
       });
     };
@@ -97,13 +76,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
         return $scope.map.getBounds();
       }
     };
-
-    $scope.dropMarker = function dropMarker(i) {
-      return function() {
-        $scope.markers[i].setMap($scope.map);
-      };
-    };
-
     // [START region_setcountry]
 // Set the country restriction based on user input.
 // Also center and zoom the map on the given country.
