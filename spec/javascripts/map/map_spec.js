@@ -1,17 +1,18 @@
 describe('map', function () {
   beforeEach(module('mapApp'));
 
-  var $scope, $controller, lon, lat, formattedAddress;
+  var $scope, $controller, newMarkerService, lon, lat, formattedAddress;
 
-  beforeEach(inject(function (_$rootScope_, _$controller_) {
+  beforeEach(inject(function (_$rootScope_, _$controller_, _createMarkerService_) {
     $scope = _$rootScope_.$new();
     $controller = _$controller_;
+    createMarkerService = _createMarkerService_;
 
     lon = 39;
     lat = -104;
     formattedAddress = "Denver, CO 80218";
 
-    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress});
+    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, createMarkerService: createMarkerService});
   }));
 
   describe('initial map load', function () {
@@ -111,12 +112,15 @@ describe('map', function () {
       //expect(google.maps.event.addListener).toHaveBeenCalledWith([ ({  }), 'place_changed', Function ], [ ({  }), 'idle', Function ], [ ({  }), 'click', Function ])
     });
 
-    it("creates a marker when the user clicks on the map", function() {
-    });
+    it("calls the setUpNewMarkerService so that the user can add markers to the map", function() {
+      createMarkerService.setup($scope);
 
+      $scope.init();
 
-
+      expect($scope.setUpNewMarkerService).toBeDefined();
+    })
   });
+
   describe('map functionality', function () {
     it("finds the bounds of the map when they are not defined", function() {
 
@@ -154,25 +158,6 @@ describe('map', function () {
       //$scope.dropMarker(1);
       //
       //expect($scope.markers[1].setMap).toHaveBeenCalledWith($scope.map)
-    })
-
-    it('allows the user to create a marker on the map', function() {
-      //$scope.map = 'map';
-      //$scope.$digest()
-      //spyOn(google.maps.event, "addListener")
-      //
-      //$scope.init();
-      //$scope.$digest()
-      //
-      //expect(google.maps.event.addListener).toHaveBeenCalledWith($scope.map);
     });
-
-    //it('uses the google maps infowindow service to show a form to add a new marker', function() {
-    //  $scope.html = "<table>";
-    //
-    //  spyOn(google.maps, "InfoWindow");
-    //  $scope.init();
-    //  expect(google.maps.InfoWindow).toHaveBeenCalledWith({content: $scope.html})
-    //})
-  })
+  });
 });

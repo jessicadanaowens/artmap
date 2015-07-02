@@ -1,5 +1,11 @@
 var google = {
   maps: {
+    Marker: function() {
+      return true;
+    },
+    InfoWindow: function() {
+      return true;
+    },
     event: {
       addListener: function(itemWatched, listenerTitle, functionFired) {
         return functionFired
