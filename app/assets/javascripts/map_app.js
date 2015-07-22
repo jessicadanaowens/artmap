@@ -1,5 +1,9 @@
-angular.module('mapApp', ['ui.router'])
-  .config(function($stateProvider, $urlRouterProvider) {
+angular.module('mapApp', ['ui.router', 'ngResource'])
+  .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
+    $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+    $httpProvider.defaults.headers.common['Accept'] = 'application/json';
+    $httpProvider.defaults.headers.common['Content-Type'] = 'application/json';
+
     $stateProvider
       .state('home', {
         url: '',

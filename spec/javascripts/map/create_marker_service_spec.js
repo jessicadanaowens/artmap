@@ -1,17 +1,20 @@
 describe('createMarkerService', function () {
   beforeEach(module('mapApp'));
 
-  var createMarkerService, $scope;
+  var createMarkerService, $scope, $httpBackend, $resource;
 
-  beforeEach(inject(function (_createMarkerService_, $rootScope) {
+  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_, _$resource_) {
     createMarkerService = _createMarkerService_;
     $scope = $rootScope.$new();
+    $httpBackend = _$httpBackend_;
+    $resource = _$resource_;
   }));
 
   describe('setup', function () {
     it('attaches functions to the the scope', function () {
       createMarkerService.setup($scope);
 
+      expect($scope.newMarker).toBeDefined();
       expect($scope.newMarkerForm).toBeDefined();
       expect($scope.infowindow).toBeDefined();
       expect($scope.setUpNewMarkerService).toBeDefined();
@@ -56,6 +59,20 @@ describe('createMarkerService', function () {
       expect(google.maps.Marker).toHaveBeenCalled();
       expect($scope.dropMarker).toHaveBeenCalled();
 
+    });
+
+    it('saves the marker in the database successfully', function() {
+      $scope.selectedMarker = { getPosition: function() {
+        return true
+      }};
+
+      createMarkerService.setup($scope);
+
+      $httpBackend.expectPOST('/markers').respond({message: "You're gallery was successfully created"});
+
+      $scope.saveData();
+
+      expect($scope.message).toEqual("You're gallery was successfully created")
     })
   })
 });

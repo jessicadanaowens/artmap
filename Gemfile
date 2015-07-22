@@ -11,7 +11,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
   gem 'dotenv-rails', :require => 'dotenv/rails-now'
-  gem 'byebug'
+  gem 'pry-byebug', '~> 2.0.0'
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'rspec-rails', '~> 3.0'
@@ -25,3 +25,4 @@ end
 
 gem 'angularjs-rails', '~>1.3.9'
 gem 'tilt-jade', '~> 1.2.0'
+gem 'responders', '~> 2.1.0'

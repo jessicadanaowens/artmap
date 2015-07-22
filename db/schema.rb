@@ -13,10 +13,11 @@
 
 ActiveRecord::Schema.define(version: 20150619032510) do
 
-  create_table "rides", force: :cascade do |t|
-    t.string   "title"
-    t.float    "lat"
-    t.float    "lon"
+  create_table "markers", force: :cascade do |t|
+    t.string   "position"
+    t.string   "address"
+    t.string   "name"
+    t.boolean  "gallery"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
