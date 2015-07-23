@@ -1,3 +1,5 @@
+div(class="alert alert-success", role="alert", ng-if='flash.getMessage("success")') {{flash.getMessage("success")}}
+
 div#locationField(ng-init="init()")
     input#autocomplete(placeholder="Enter a city", type="text", ng-model="formattedAddress")
 
