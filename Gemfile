@@ -9,6 +9,10 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+group :production do
+  gem 'pg', '~> 0.18.2'
+end
+
 group :development, :test do
   gem 'dotenv-rails', :require => 'dotenv/rails-now'
   gem 'pry-byebug', '~> 2.0.0'
