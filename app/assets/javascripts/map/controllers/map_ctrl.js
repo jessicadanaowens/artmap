@@ -44,13 +44,11 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', '$compile', 'lon', 'la
         $scope.map.panTo(place.geometry.location);
         $scope.map.setZoom(15);
         $scope.search();
-        //add search function to search for carpools after a place has been selected
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }
     };
 
-    //search for rideshares in the selected city, within the viewport of the map
     $scope.search = function search() {
       var search = {
         bounds: $scope.findBounds(),
@@ -59,11 +57,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', '$compile', 'lon', 'la
 
       $scope.places.nearbySearch(search, function(results, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-//          clearResults();
-//          clearMarkers();
-          // Create a marker for each hotel found, and
-          // assign a letter of the alphabetic to each marker icon.
-
           $scope.placeMarkersOnMap(results);
         }
       });
@@ -76,9 +69,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', '$compile', 'lon', 'la
         return $scope.map.getBounds();
       }
     };
-    // [START region_setcountry]
-// Set the country restriction based on user input.
-// Also center and zoom the map on the given country.
+
     $scope.setAutocompleteCountry = function setAutocompleteCountry() {
       var country = document.getElementById('country').value;
       if (country == 'all') {
@@ -90,10 +81,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', '$compile', 'lon', 'la
         $scope.map.setCenter($scope.countries[country].center);
         $scope.map.setZoom($scope.countries[country].zoom);
       }
-//      clearResults();
-//      clearMarkers();
     };
-// [END region_setcountry]
 
     $scope.countries = {
       'au': {

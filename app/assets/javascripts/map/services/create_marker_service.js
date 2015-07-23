@@ -46,14 +46,7 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
               animation: google.maps.Animation.DROP,
               icon: markerIcon
             });
-            // If the user clicks a hotel marker, show the details of that hotel
-            // in an info window.
-            //$scope.markers[i].placeResult = results[i];
-
-            //I don't think i need this below
-//            google.maps.event.addListener($scope.markers[i], 'click', showInfoWindow);
             setTimeout($scope.dropMarker(i), i * 100);
-//            addResult(results[i], i);
           }
         };
 
@@ -73,12 +66,6 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
             Flash.setMessage("success", "You're gallery was successfully created")
             $scope.infowindow.close();
           });
-
-          //  if (responseCode == 200 && data.length >= 1) {
-          //    infowindow.close();
-          //    document.getElementById("message").innerHTML = "Location added.";
-          //  }
-          //});
         }
       }
     }
