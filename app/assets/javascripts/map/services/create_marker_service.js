@@ -1,11 +1,8 @@
-angular.module('mapApp').service('createMarkerService', [ '$resource',
-  function ($resource) {
+angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
+  function ($resource, Marker) {
     return {
       setup: function setup($scope, $compile) {
 
-        var Marker = $resource('/markers/:markerId',
-          {markerId: '@id'});
-        
         $scope.newMarker = new Marker({userId: 1});
         $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
         $scope.markers = [];
@@ -67,11 +64,14 @@ angular.module('mapApp').service('createMarkerService', [ '$resource',
         };
 
         $scope.saveData = function saveData() {
+          $scope.name = 'name';
           $scope.newMarker.position = $scope.selectedMarker.getPosition();
           $scope.newMarker.gallery = true;
           $scope.newMarker.name = $scope.name;
 
-          $scope.newMarker.$save();
+          $scope.newMarker.$save(function (data){
+            $scope.infowindow.close();
+          });
 
           //  if (responseCode == 200 && data.length >= 1) {
           //    infowindow.close();

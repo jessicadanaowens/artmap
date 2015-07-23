@@ -1,18 +1,19 @@
 describe('createMarkerService', function () {
   beforeEach(module('mapApp'));
 
-  var createMarkerService, $scope, $httpBackend, $resource;
+  var createMarkerService, $scope, $httpBackend, $resource, Marker;
 
-  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_, _$resource_) {
+  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_, _$resource_, $q, _Marker_) {
     createMarkerService = _createMarkerService_;
     $scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
     $resource = _$resource_;
+
+    createMarkerService.setup($scope);
   }));
 
   describe('setup', function () {
     it('attaches functions to the the scope', function () {
-      createMarkerService.setup($scope);
 
       expect($scope.newMarker).toBeDefined();
       expect($scope.newMarkerForm).toBeDefined();
@@ -30,7 +31,6 @@ describe('createMarkerService', function () {
       spyOn(google.maps.event, "addListener").and.callThrough();
 
       var map = "map";
-      createMarkerService.setup($scope);
 
       $scope.setUpNewMarkerService(map);
       expect(google.maps.event.addListener).toHaveBeenCalled();
@@ -48,8 +48,6 @@ describe('createMarkerService', function () {
     });
 
     it('places the markers on the map', function() {
-      createMarkerService.setup($scope);
-
       spyOn(google.maps, "Marker");
       spyOn($scope, "dropMarker");
       results = [{geometry: "geometry", location: "location"}];
@@ -66,14 +64,16 @@ describe('createMarkerService', function () {
         return true
       }};
 
-      createMarkerService.setup($scope);
-
       $httpBackend.expectPOST('/markers').respond({message: "You're gallery was successfully created"});
-
+      spyOn($scope.newMarker, "$save");
       $scope.saveData();
+      $scope.$digest();
 
-      expect($scope.message).toEqual("You're gallery was successfully created")
-    })
+      expect($scope.newMarker.$save).toHaveBeenCalled();
+      expect($scope.newMarker.position).toBeDefined();
+      expect($scope.newMarker.gallery).toBeDefined();
+      expect($scope.newMarker.name).toBeDefined();
+    });
   })
 });
 
