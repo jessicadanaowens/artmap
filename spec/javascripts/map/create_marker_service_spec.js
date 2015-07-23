@@ -9,6 +9,8 @@ describe('createMarkerService', function () {
     $httpBackend = _$httpBackend_;
     $resource = _$resource_;
 
+    $scope.newMarker = function () { save: function() {return true} };
+
     createMarkerService.setup($scope);
   }));
 
