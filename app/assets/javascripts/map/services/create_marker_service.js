@@ -3,7 +3,7 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
     return {
       setup: function setup($scope, $compile) {
         $scope.flash = Flash;
-        $scope.newMarker = new Marker({userId: 1});
+        $scope.marker = new Marker({userId: 1});
         $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
         $scope.markers = [];
         $scope.newMarkerForm = "<table id='newMarkerForm'>" +
@@ -65,11 +65,11 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
 
         $scope.saveData = function saveData() {
           $scope.name = 'name';
-          $scope.newMarker.position = $scope.selectedMarker.getPosition();
-          $scope.newMarker.gallery = true;
-          $scope.newMarker.name = $scope.name;
+          $scope.marker.position = $scope.selectedMarker.getPosition();
+          $scope.marker.gallery = true;
+          $scope.marker.name = $scope.name;
 
-          $scope.newMarker.$save(function (data){
+          $scope.marker.$save(function (data){
             Flash.setMessage("success", "You're gallery was successfully created")
             $scope.infowindow.close();
           });
