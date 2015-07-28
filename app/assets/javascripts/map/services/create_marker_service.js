@@ -8,10 +8,10 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
         $scope.markers = [];
         $scope.newMarkerForm = "<table id='newMarkerForm'>" +
           "<tr><td>Name:</td> <td><input type='text' id='name' ng-model='name'/> </td> </tr>" +
-          "<tr><td>Address:</td> <td><input type='text' id='address'/></td> </tr>" +
           "<tr><td>Type:</td> <td><select id='type'>" +
-          "<option value='bar' SELECTED>bar</option>" +
-          "<option value='restaurant'>restaurant</option>" +
+          "<option value='gallery' SELECTED>gallery</option>" +
+          "<option value='private-collection'>private collection</option>" +
+          "<option value='artist'>artist</option>" +
           "</select> </td></tr>" +
           "<tr><td></td><td><input type='button' value='Save & Close' ng-click='saveData()'/></td></tr>";
 
