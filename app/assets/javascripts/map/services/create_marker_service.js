@@ -1,7 +1,7 @@
-angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker', 'Flash',
-  function ($resource, Marker, Flash) {
+angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker', 'Flash', '$compile',
+  function ($resource, Marker, Flash, $compile) {
     return {
-      setup: function setup($scope, $compile) {
+      setup: function setup($scope) {
         $scope.flash = Flash;
         $scope.marker = new Marker({userId: 1});
         $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
