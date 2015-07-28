@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619032510) do
+ActiveRecord::Schema.define(version: 20150725004401) do
 
   create_table "markers", force: :cascade do |t|
     t.string   "position"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20150619032510) do
     t.boolean  "gallery"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "city"
+    t.string   "country"
   end
 
 end
