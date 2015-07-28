@@ -7,6 +7,7 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
         $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
         $scope.markers = [];
         $scope.newMarkerForm = "<table id='newMarkerForm'>" +
+          "<h4>Add a gallery, private collection, or artist to the map.</h4>" +
           "<tr><td>Name:</td> <td><input type='text' id='name' ng-model='name'/> </td> </tr>" +
           "<tr><td>Type:</td> <td><select id='type'>" +
           "<option value='gallery' SELECTED>gallery</option>" +
