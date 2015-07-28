@@ -1,8 +1,15 @@
-div#locationField(ng-init="init()")
-    input#autocomplete(placeholder="Enter a city", type="text", details="details")
+div.col-md-3
+div.col-md-6.enter-box.rounded
+    div
+        h1.title.center Welcome to ArtMap!
+    div
+        h3.sub-title.center Explore and share art in your city.
 
-  div#controls
-    select#country(ng-model="countryRestrict.country")
+    div#locationField(ng-init="init()")
+        input#autocomplete.col-md-9.rounded(placeholder="Enter a city", type="text", details="details")
+
+    div#controls
+    select#country.col-md-3.rounded(ng-model="countryRestrict.country")
       option(value="all") All
       option(value="au") Australia
       option(value="br") Brazil
@@ -17,3 +24,5 @@ div#locationField(ng-init="init()")
       option(value="pt") Portugal
       option(value="us", selected) U.S.A.
       option(value="uk") United Kingdom
+
+div.col-md-3
