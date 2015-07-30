@@ -62,6 +62,7 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
           $scope.marker.position = $scope.selectedMarker.getPosition();
           $scope.marker.gallery = true;
           $scope.marker.name = $scope.name;
+          debugger;
 
           $scope.marker.$save(function (data){
             Flash.setMessage("success", "You're gallery was successfully created")

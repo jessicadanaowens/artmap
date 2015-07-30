@@ -1,23 +1,21 @@
 describe('createMarkerService', function () {
+  var createMarkerService, $scope, $httpBackend, $resource;
+
   beforeEach(module('mapApp'));
 
-  var createMarkerService, $scope, $httpBackend, $resource, Marker;
-
-  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_, _$resource_, $q, _Marker_) {
+  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_) {
     createMarkerService = _createMarkerService_;
     $scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
-    $resource = _$resource_;
-
-    $scope.newMarker = function () { save: function() {return true} };
 
     createMarkerService.setup($scope);
   }));
 
   describe('setup', function () {
     it('attaches functions to the the scope', function () {
+      createMarkerService.setup($scope);
 
-      expect($scope.newMarker).toBeDefined();
+      expect($scope.marker).toBeDefined();
       expect($scope.newMarkerForm).toBeDefined();
       expect($scope.infowindow).toBeDefined();
       expect($scope.setUpNewMarkerService).toBeDefined();
@@ -67,14 +65,14 @@ describe('createMarkerService', function () {
       }};
 
       $httpBackend.expectPOST('/markers').respond({message: "You're gallery was successfully created"});
-      spyOn($scope.newMarker, "$save");
+      spyOn($scope.marker, "$save");
       $scope.saveData();
       $scope.$digest();
 
-      expect($scope.newMarker.$save).toHaveBeenCalled();
-      expect($scope.newMarker.position).toBeDefined();
-      expect($scope.newMarker.gallery).toBeDefined();
-      expect($scope.newMarker.name).toBeDefined();
+      expect($scope.marker.$save).toHaveBeenCalled();
+      expect($scope.marker.position).toBeDefined();
+      expect($scope.marker.gallery).toBeDefined();
+      expect($scope.marker.name).toBeDefined();
     });
   })
 });
