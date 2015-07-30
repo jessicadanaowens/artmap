@@ -37,16 +37,29 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
           });
         };
 
-        $scope.placeMarkersOnMap = function(results) {
-          for (var i = 0; i < results.length; i++) {
-            var markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
-            var markerIcon = $scope.markerPath + markerLetter + '.png';
+        $scope.getAndPlaceMarkersOnMap = function getMarkers() {
+          Marker.query(function (markers){
+          debugger;
+            $scope.placeMarkersOnMap(markers);
+          });
+        };
 
-            $scope.markers[i] = new google.maps.Marker({
-              position: results[i].geometry.location,
-              animation: google.maps.Animation.DROP,
-              icon: markerIcon
-            });
+        $scope.createGoogleMarker = function createGoogleMarker(i, markers) {
+          $scope.markers[i] = new google.maps.Marker({
+            position: new google.maps.LatLng(markers[i].lat, markers[i].lon),
+            animation: google.maps.Animation.DROP,
+            icon: $scope.markerIcon
+          });
+        };
+
+        $scope.placeMarkersOnMap = function(markers) {
+          for (var i = 0; i < markers.length; i++) {
+            debugger;
+            $scope.markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
+            $scope.markerIcon = $scope.markerPath + $scope.markerLetter + '.png';
+
+            $scope.createGoogleMarker(i, markers);
+
             setTimeout($scope.dropMarker(i), i * 100);
           }
         };
@@ -58,14 +71,14 @@ angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker',
         };
 
         $scope.saveData = function saveData() {
-          $scope.name = 'name';
-          $scope.marker.position = $scope.selectedMarker.getPosition();
+          $scope.marker.name = $scope.name;
+          $scope.marker.lat = $scope.selectedMarker.position["G"];
+          $scope.marker.lon = $scope.selectedMarker.position["K"];
           $scope.marker.gallery = true;
           $scope.marker.name = $scope.name;
-          debugger;
 
           $scope.marker.$save(function (data){
-            Flash.setMessage("success", "You're gallery was successfully created")
+            Flash.setMessage("success", "You're gallery was successfully created");
             $scope.infowindow.close();
           });
         }

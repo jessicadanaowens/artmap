@@ -1,7 +1,7 @@
 describe('map', function () {
   beforeEach(module('mapApp'));
 
-  var $scope, $controller, newMarkerService, lon, lat, formattedAddress;
+  var $scope, $controller, newMarkerService, lon, lat, formattedAddress, searchParams;
 
   beforeEach(inject(function (_$rootScope_, _$controller_, _createMarkerService_, _autocompleteService_) {
     $scope = _$rootScope_.$new();
@@ -17,6 +17,34 @@ describe('map', function () {
   }));
 
   describe('initial map load', function () {
+    it("sets up services", function() {
+      it("allows the user to add markers to the map", function() {
+        spyOn(createMarkerService, "setup");
+        $scope.init();
+        expect(createMarkerService.setup).toHaveBeenCalledWith($scope)
+      });
+      it("allows the user to search for places", function() {
+        spyOn(autocompleteService, "setup");
+        $scope.init();
+        expect(autocompleteService.setup).toHaveBeenCalledWith($scope);
+      });
+      it("provides a list countries for the user select", function() {
+        spyOn(Countries, "setup");
+        $scope.init();
+        expect(Countries.setup).toHaveBeenCalledWith($scope);
+      });
+    });
+
+    it("attaches parameters passed from the previous page to the scope", function() {
+      $scope.init();
+
+      expect($scope.lon).toBeDefined();
+      expect($scope.lat).toBeDefined();
+      expect($scope.formattedAddress).toBeDefined();
+      expect($scope.city).toBeDefined();
+      expect($scope.country).toBeDefined();
+    });
+
     it("creates a map", function() {
       expect($scope.map).toBeUndefined;
 
@@ -47,14 +75,6 @@ describe('map', function () {
       expect($scope.idleMapListener).toBeDefined();
     });
 
-    it("sets up the google Place Service for the map", function() {
-      spyOn(google.maps.places, "PlacesService").and.callThrough;
-
-      $scope.init();
-
-      expect(google.maps.places.PlacesService).toHaveBeenCalledWith($scope.map);
-    });
-
     it('sets up a google maps event listener for when the user changes the selected country', function() {
       spyOn(google.maps.event, "addDomListener").and.callThrough;
 
@@ -62,71 +82,6 @@ describe('map', function () {
 
       expect(google.maps.event.addDomListener).toHaveBeenCalledWith(document.getElementById('country'), 'change', $scope.setAutocompleteCountry);
     });
-
-    //it('changes the maps component restrictions, center, and zoom when the user selects a country', function() {
-    //  $('body').append('<form id="country">au</form>');
-    //
-    //  $scope.map = {
-    //    setCenter: function(){
-    //      return true
-    //    },
-    //    setZoom: function() {
-    //      return true
-    //    }
-    //  };
-    //
-    //  $scope.autocomplete = {
-    //    setComponentRestrictions: function() {
-    //      return true
-    //    }
-    //  };
-    //
-    //  $scope.countries = {
-    //    'au': {
-    //      center: new google.maps.LatLng(-25.3, 133.8),
-    //      zoom: 4
-    //    },
-    //    'br': {
-    //      center: new google.maps.LatLng(-14.2, -51.9),
-    //      zoom: 3
-    //    },
-    //
-    //  spyOn($scope.autocomplete, "setComponentRestrictions");
-    //  spyOn($scope.map, "setCenter");
-    //  spyOn($scope.map, "setZoom");
-    //
-    //  $scope.setAutocompleteCountry();
-    //
-    //  expect($scope.autocomplete.setComponentRestrictions).toHaveBeenCalledWith([]);
-    //  expect($scope.map.setCenter).toHaveBeenCalledWith(new google.maps.LatLng(15, 0));
-    //  expect($scope.map.setZoom).toHaveBeenCalledWith(2);
-    //
-    //  $('#country').remove();
-    //
-    //});
-
-    it("sets up a google map listeners", function() {
-      //spyOn(google.maps.event, "addListener");
-      //
-      //$scope.init()
-      //
-      //expect(google.maps.event.addListener).toHaveBeenCalledWith([ ({  }), 'place_changed', Function ], [ ({  }), 'idle', Function ], [ ({  }), 'click', Function ])
-    });
-
-    it("calls the setUpNewMarkerService so that the user can add markers to the map", function() {
-      createMarkerService.setup($scope);
-
-      $scope.init();
-
-      expect($scope.setUpNewMarkerService).toBeDefined();
-    });
-
-    it("calls the autocomplete service so that the user can search for places", function() {
-      spyOn(autocompleteService, "setup");
-      $scope.init();
-      expect(autocompleteService.setup).toHaveBeenCalledWith($scope);
-
-    })
   });
 
   describe('map functionality', function () {

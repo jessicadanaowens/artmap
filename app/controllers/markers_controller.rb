@@ -1,8 +1,13 @@
 class MarkersController < ApplicationController
   respond_to :json
 
+  def index
+    @markers = Marker.all
+    render json: @markers
+  end
+
   def create
-    m = Marker.create(position: params[:position], name: params[:name], gallery: params[:gallery])
+    m = Marker.create(lat: params[:lat], lon: params[:lon], name: params[:name], gallery: params[:gallery])
 
     if m.errors.any?
       render json: {errors: m.errors}, status: :unprocessable_entity

@@ -31,7 +31,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
 
       $scope.idleMapListener = google.maps.event.addListener($scope.map, 'idle', function() {
         $scope.bounds = $scope.map.getBounds();
-        $scope.search();
+        $scope.getAndPlaceMarkersOnMap();
         $scope.bounds = undefined;
         google.maps.event.removeListener($scope.idleMapListener);
       });
@@ -40,27 +40,15 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
     };
 
     $scope.onPlaceChanged = function onPlaceChanged() {
+      $scope.markers = [];
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);
         $scope.map.setZoom(15);
-        $scope.search();
+        $scope.getAndPlaceMarkersOnMap();
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }
-    };
-
-    $scope.search = function search() {
-      var search = {
-        bounds: $scope.findBounds(),
-        types: ['lodging']
-      };
-
-      $scope.places.nearbySearch(search, function(results, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          $scope.placeMarkersOnMap(results);
-        }
-      });
     };
 
     $scope.findBounds = function findBounds() {

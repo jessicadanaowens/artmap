@@ -1,18 +1,20 @@
 describe('createMarkerService', function () {
-  var createMarkerService, $scope, $httpBackend, $resource;
+  var createMarkerService, $scope, $httpBackend, $resource, Marker;
 
   beforeEach(module('mapApp'));
 
-  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_) {
+  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_, _Marker_) {
     createMarkerService = _createMarkerService_;
     $scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
+    Marker = _Marker_;
+
 
     createMarkerService.setup($scope);
   }));
 
   describe('setup', function () {
-    it('attaches functions to the the scope', function () {
+    it('attaches items to the the scope', function () {
       createMarkerService.setup($scope);
 
       expect($scope.marker).toBeDefined();
@@ -47,16 +49,33 @@ describe('createMarkerService', function () {
       expect(google.maps.InfoWindow).toHaveBeenCalledWith({content: $scope.newMarkerForm});
     });
 
-    it('places the markers on the map', function() {
-      spyOn(google.maps, "Marker");
+    it('retrieves markers from the database', function() {
+      spyOn(Marker, "query");
+
+      $scope.getAndPlaceMarkersOnMap()
+
+      expect(Marker.query).toHaveBeenCalled();
+    });
+
+    it('creates google markers from the retrieved markers', function() {
+      markers = ["marker1", "marker2"];
+
+      spyOn($scope, "createGoogleMarker");
+
+      $scope.placeMarkersOnMap(markers);
+
+      expect($scope.createGoogleMarker).toHaveBeenCalledWith(0, markers);
+      expect($scope.createGoogleMarker).toHaveBeenCalledWith(1, markers);
+    });
+
+    it('places google markers on the map', function() {
       spyOn($scope, "dropMarker");
-      results = [{geometry: "geometry", location: "location"}];
 
-      $scope.placeMarkersOnMap(results);
+      $scope.placeMarkersOnMap(markers);
 
-      expect(google.maps.Marker).toHaveBeenCalled();
+      expect($scope.markerLetter).toBeDefined();
+      expect($scope.markerIcon).toBeDefined();
       expect($scope.dropMarker).toHaveBeenCalled();
-
     });
 
     it('saves the marker in the database successfully', function() {
@@ -66,13 +85,18 @@ describe('createMarkerService', function () {
 
       $httpBackend.expectPOST('/markers').respond({message: "You're gallery was successfully created"});
       spyOn($scope.marker, "$save");
+
       $scope.saveData();
+
       $scope.$digest();
 
       expect($scope.marker.$save).toHaveBeenCalled();
-      expect($scope.marker.position).toBeDefined();
-      expect($scope.marker.gallery).toBeDefined();
       expect($scope.marker.name).toBeDefined();
+      expect($scope.marker.lat).toBeDefined();
+      expect($scope.marker.lon).toBeDefined();
+      expect($scope.marker.gallery).toBeDefined();
+      expect($scope.marker.city).toBeDefined();
+      expect($scope.marker.country).toBeDefined();
     });
   })
 });
