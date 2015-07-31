@@ -1,9 +1,9 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'createMarkerService', 'autocompleteService', 'Countries',
-  function ($scope, lon, lat, formattedAddress, createMarkerService, autocompleteService, Countries) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'MarkerService', 'autocompleteService', 'Countries',
+  function ($scope, lon, lat, formattedAddress, MarkerService, autocompleteService, Countries) {
 
     $scope.init = function init() {
 
-      createMarkerService.setup($scope);
+      MarkerService.setup($scope);
       autocompleteService.setup($scope);
       Countries.setup($scope);
 

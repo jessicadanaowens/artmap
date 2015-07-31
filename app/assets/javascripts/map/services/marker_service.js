@@ -1,4 +1,4 @@
-angular.module('mapApp').service('createMarkerService', [ '$resource', 'Marker', 'Flash', '$compile',
+angular.module('mapApp').service('MarkerService', [ '$resource', 'Marker', 'Flash', '$compile',
   function ($resource, Marker, Flash, $compile) {
     return {
       setup: function setup($scope) {

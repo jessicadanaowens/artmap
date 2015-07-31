@@ -1,21 +1,21 @@
-describe('createMarkerService', function () {
-  var createMarkerService, $scope, $httpBackend, $resource, Marker;
+describe('MarkerService', function () {
+  var MarkerService, $scope, $httpBackend, $resource, Marker;
 
   beforeEach(module('mapApp'));
 
-  beforeEach(inject(function (_createMarkerService_, $rootScope, _$httpBackend_, _Marker_) {
-    createMarkerService = _createMarkerService_;
+  beforeEach(inject(function (_MarkerService_, $rootScope, _$httpBackend_, _Marker_) {
+    MarkerService = _MarkerService_;
     $scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
     Marker = _Marker_;
 
 
-    createMarkerService.setup($scope);
+    MarkerService.setup($scope);
   }));
 
   describe('setup', function () {
     it('attaches items to the the scope', function () {
-      createMarkerService.setup($scope);
+      MarkerService.setup($scope);
 
       expect($scope.marker).toBeDefined();
       expect($scope.newMarkerForm).toBeDefined();
@@ -42,7 +42,7 @@ describe('createMarkerService', function () {
       $scope.newMarkerForm = "<table>";
       spyOn(google.maps, "InfoWindow");
 
-      createMarkerService.setup($scope);
+      MarkerService.setup($scope);
 
       expect($scope.infowindow).toBeDefined();
       expect($scope.newMarkerForm).toBeDefined();

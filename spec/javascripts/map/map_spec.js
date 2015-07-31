@@ -3,25 +3,25 @@ describe('map', function () {
 
   var $scope, $controller, newMarkerService, lon, lat, formattedAddress, searchParams;
 
-  beforeEach(inject(function (_$rootScope_, _$controller_, _createMarkerService_, _autocompleteService_) {
+  beforeEach(inject(function (_$rootScope_, _$controller_, _MarkerService_, _autocompleteService_) {
     $scope = _$rootScope_.$new();
     $controller = _$controller_;
-    createMarkerService = _createMarkerService_;
+    MarkerService = _MarkerService_;
     autocompleteService = _autocompleteService_;
 
     lon = 39;
     lat = -104;
     formattedAddress = "Denver, CO 80218";
 
-    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, createMarkerService: createMarkerService, autocompleteService: autocompleteService});
+    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, MarkerService: MarkerService, autocompleteService: autocompleteService});
   }));
 
   describe('initial map load', function () {
     it("sets up services", function() {
       it("allows the user to add markers to the map", function() {
-        spyOn(createMarkerService, "setup");
+        spyOn(MarkerService, "setup");
         $scope.init();
-        expect(createMarkerService.setup).toHaveBeenCalledWith($scope)
+        expect(MarkerService.setup).toHaveBeenCalledWith($scope)
       });
       it("allows the user to search for places", function() {
         spyOn(autocompleteService, "setup");
