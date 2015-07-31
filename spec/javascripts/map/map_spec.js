@@ -1,27 +1,33 @@
 describe('map', function () {
   beforeEach(module('mapApp'));
 
-  var $scope, $controller, newMarkerService, lon, lat, formattedAddress, searchParams;
+  var $scope, $controller, NewMarkerService, ExistingMarkerService, lon, lat, formattedAddress, searchParams;
 
-  beforeEach(inject(function (_$rootScope_, _$controller_, _MarkerService_, _autocompleteService_) {
+  beforeEach(inject(function (_$rootScope_, _$controller_, _NewMarkerService_, _ExistingMarkerService_,_autocompleteService_) {
     $scope = _$rootScope_.$new();
     $controller = _$controller_;
-    MarkerService = _MarkerService_;
+    NewMarkerService = _NewMarkerService_;
+    ExistingMarkerService = _ExistingMarkerService_;
     autocompleteService = _autocompleteService_;
 
     lon = 39;
     lat = -104;
     formattedAddress = "Denver, CO 80218";
 
-    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, MarkerService: MarkerService, autocompleteService: autocompleteService});
+    $controller('mapCtrl', {$scope: $scope, lon: lon, lat: lat, formattedAddress: formattedAddress, NewMarkerService: NewMarkerService, ExistingMarkerService: ExistingMarkerService, autocompleteService: autocompleteService});
   }));
 
   describe('initial map load', function () {
     it("sets up services", function() {
       it("allows the user to add markers to the map", function() {
-        spyOn(MarkerService, "setup");
+        spyOn(NewMarkerService, "setup");
         $scope.init();
-        expect(MarkerService.setup).toHaveBeenCalledWith($scope)
+        expect(NewMarkerService.setup).toHaveBeenCalledWith($scope)
+      });
+      it("allows users to view existing markers", function () {
+        spyOn(ExistingMarkerService, "setup");
+        $scope.init();
+        expect(ExistingMarkerService.setup).toHaveBeenCalledWith($scope)
       });
       it("allows the user to search for places", function() {
         spyOn(autocompleteService, "setup");
@@ -41,8 +47,6 @@ describe('map', function () {
       expect($scope.lon).toBeDefined();
       expect($scope.lat).toBeDefined();
       expect($scope.formattedAddress).toBeDefined();
-      expect($scope.city).toBeDefined();
-      expect($scope.country).toBeDefined();
     });
 
     it("creates a map", function() {

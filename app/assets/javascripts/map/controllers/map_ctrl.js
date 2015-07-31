@@ -1,9 +1,11 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'MarkerService', 'autocompleteService', 'Countries',
-  function ($scope, lon, lat, formattedAddress, MarkerService, autocompleteService, Countries) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'ExistingMarkerService', 'NewMarkerService', 'autocompleteService', 'Countries',
+  function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries) {
 
     $scope.init = function init() {
+      $scope.markers = [];
 
-      MarkerService.setup($scope);
+      ExistingMarkerService.setup($scope, $scope.markers);
+      NewMarkerService.setup($scope, $scope.markers);
       autocompleteService.setup($scope);
       Countries.setup($scope);
 
@@ -36,7 +38,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
         google.maps.event.removeListener($scope.idleMapListener);
       });
 
-      $scope.setUpNewMarkerService($scope.map);
+      $scope.createMarkerOnMapClick($scope.map);
     };
 
     $scope.onPlaceChanged = function onPlaceChanged() {
