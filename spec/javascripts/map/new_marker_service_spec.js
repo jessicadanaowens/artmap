@@ -35,7 +35,7 @@ describe('NewMarkerService', function () {
     });
 
     it('adds the selected marker to the markers list', function() {
-      $scope.markers = []
+      $scope.markers = [];
       $scope.selectedMarker = "marker";
 
       $scope.createSelectedMarker;
@@ -49,6 +49,8 @@ describe('NewMarkerService', function () {
         position: {"G": true, "K": true}
       };
 
+      $scope.markers = [];
+
       $httpBackend.expectPOST('/markers').respond({message: "You're gallery was successfully created"});
       $scope.marker = {
         $save: function() {
@@ -59,6 +61,13 @@ describe('NewMarkerService', function () {
 
       spyOn($scope.marker, "$save");
 
+      google.maps.event.removeListener = function (form) {
+        return true;
+      };
+
+      spyOn($scope, "removeNewFormListener");
+      spyOn($scope, "addInfoWindowListener");
+
       $scope.saveData();
 
       $scope.$digest();
@@ -68,6 +77,9 @@ describe('NewMarkerService', function () {
       expect($scope.marker.lat).toBeDefined();
       expect($scope.marker.lon).toBeDefined();
       expect($scope.marker.gallery).toBeDefined();
+      expect($scope.removeNewFormListener).toHaveBeenCalled();
+      expect($scope.selectedMarker.name).toBeDefined();
+      expect($scope.addInfoWindowListener).toHaveBeenCalled();
     });
   })
 });

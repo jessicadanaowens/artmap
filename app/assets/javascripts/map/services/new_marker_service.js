@@ -19,7 +19,6 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
         $scope.createMarkerOnMapClick = function createMarkerOnMapClick(map) {
           google.maps.event.addListener(map, "click", function (event) {
             $scope.createSelectedMarker(event, map);
-            $scope.addSelectedMarkerToMarkers();
             $scope.createInfoWindowOnClick(map);
           });
         };
@@ -36,12 +35,34 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
         };
 
         $scope.createInfoWindowOnClick = function createInfoWindowOnClick(map) {
-          google.maps.event.addListener($scope.selectedMarker, "click", function (event) {
+          $scope.newFormListener = google.maps.event.addListener($scope.selectedMarker, "click", function (event) {
             $scope.infowindow.open(map, $scope.selectedMarker);
             $scope.$apply(function() {
               $compile(document.getElementById("newMarkerForm"))($scope)
             });
           });
+        };
+
+        $scope.existingInfoWindow = new google.maps.InfoWindow({
+          content: document.getElementById('info-content')
+        });
+
+        function showInfoWindow() {
+          var marker = this;
+          $scope.existingMarker = marker;
+          $scope.existingInfoWindow.open($scope.map, marker);
+
+          $scope.$apply(function() {
+            $compile(document.getElementById("infoContent"))($scope)
+          });
+        }
+
+        $scope.removeNewFormListener = function removeNewFormListener () {
+          google.maps.event.removeListener($scope.newFormListener);
+        };
+
+        $scope.addInfoWindowListener = function addInfoWindowListener () {
+          google.maps.event.addListener($scope.selectedMarker, 'click', showInfoWindow);
         };
 
         $scope.saveData = function saveData() {
@@ -55,6 +76,11 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
             Flash.setMessage("success", "You're gallery was successfully created");
             $scope.infowindow.close();
           });
+
+          $scope.removeNewFormListener();
+          $scope.selectedMarker.name = $scope.marker.name;
+          $scope.addSelectedMarkerToMarkers();
+          $scope.addInfoWindowListener();
         }
       }
     }
