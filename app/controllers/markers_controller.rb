@@ -12,7 +12,7 @@ class MarkersController < ApplicationController
     if m.errors.any?
       render json: {errors: m.errors}, status: :unprocessable_entity
     else
-      @success_message = {success_message: "You're gallery was successfully created"}
+      @success_message = {success_message: "Your gallery was successfully created"}
       render json: @success_message
     end
   end

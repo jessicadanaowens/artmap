@@ -73,7 +73,7 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
           $scope.marker.name = $scope.name;
 
           $scope.marker.$save(function (data){
-            Flash.setMessage("success", "You're gallery was successfully created");
+            Flash.setMessage("success", "Your gallery was successfully created");
             $scope.infowindow.close();
           });
 
