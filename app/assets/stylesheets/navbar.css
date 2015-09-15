@@ -3,3 +3,7 @@
   padding-left: 15px;
   color: #337ab7;
 }
+
+nav.navbar.navbar-inverse.navbar-static-top   {
+  margin-bottom: 0px;
+}

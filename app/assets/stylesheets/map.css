@@ -5,3 +5,14 @@ section.map {
 #map-canvas {
   min-height: 500px;
 }
+
+div.map-filters {
+  background-color: #efefeb !important;
+  padding:50px;
+  padding-top: 15px;
+  -webkit-box-shadow: 0px 0px 8px 2px #000000;
+  -moz-box-shadow: 0px 0px 8px 2px #000000;
+  box-shadow: 0px 0px 8px 2px #000000;
+  position: relative;
+  z-index: 1;
+}

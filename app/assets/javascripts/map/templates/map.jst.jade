@@ -1,23 +1,24 @@
-row
-    span#locationField.col-md-4(ng-init="init()")
-        input#autocomplete.form-control(placeholder="Enter a city", type="text", ng-model="formattedAddress")
+div.map-filters
+    row
+        span#locationField.col-md-4(ng-init="init()")
+            input#autocomplete.form-control(placeholder="Enter a city", type="text", ng-model="formattedAddress")
 
-    span#controls.col-md-1
-        select#country.form-control
-          option(value="all") All
-          option(value="au") Australia
-          option(value="br") Brazil
-          option(value="ca") Canada
-          option(value="fr") France
-          option(value="de") Germany
-          option(value="mx") Mexico
-          option(value="nz") New Zealand
-          option(value="it") Italy
-          option(value="za") South Africa
-          option(value="es") Spain
-          option(value="pt") Portugal
-          option(value="us", selected) U.S.A.
-          option(value="uk") United Kingdom
+        span#controls.col-md-1
+            select#country.form-control
+              option(value="all") All
+              option(value="au") Australia
+              option(value="br") Brazil
+              option(value="ca") Canada
+              option(value="fr") France
+              option(value="de") Germany
+              option(value="mx") Mexico
+              option(value="nz") New Zealand
+              option(value="it") Italy
+              option(value="za") South Africa
+              option(value="es") Spain
+              option(value="pt") Portugal
+              option(value="us", selected) U.S.A.
+              option(value="uk") United Kingdom
 
 row
     div#map-canvas.col-md-12
