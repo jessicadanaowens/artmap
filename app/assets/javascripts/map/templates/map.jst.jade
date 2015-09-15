@@ -1,5 +1,3 @@
-div(class="alert alert-success", role="alert", ng-if='flash.getMessage("success")') {{flash.getMessage("success")}}
-
 row
     div#locationField(ng-init="init()")
         input#autocomplete.col-md-4(placeholder="Enter a city", type="text", ng-model="formattedAddress")
@@ -24,6 +22,6 @@ row
 row
     div#map-canvas.col-md-12
 
-    div(style="display: none")
-          div#info-content
-            h1 {{existingMarker.name}}
+div(style="display: none")
+      div#info-content
+        h1 {{existingMarker.name}}

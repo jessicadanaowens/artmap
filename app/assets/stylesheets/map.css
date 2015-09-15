@@ -1,0 +1,7 @@
+section.map {
+  width: 100%;
+}
+
+#map-canvas {
+  min-height: 500px;
+}
