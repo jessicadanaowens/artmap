@@ -1,28 +1,28 @@
 div.col-md-3
 div.col-md-6.enter-box.rounded
-    div
-        h1.title.center Welcome to ArtMap!
-    div
-        h3.sub-title.center Explore and share art in your city.
 
-    div#locationField(ng-init="init()")
-        input#autocomplete.col-md-9.rounded(placeholder="Enter a city", type="text", details="details")
+    h1.title.center Welcome to ArtMap!
 
-    div#controls
-    select#country.col-md-3.rounded(ng-model="countryRestrict.country")
-      option(value="all") All
-      option(value="au") Australia
-      option(value="br") Brazil
-      option(value="ca") Canada
-      option(value="fr") France
-      option(value="de") Germany
-      option(value="mx") Mexico
-      option(value="nz") New Zealand
-      option(value="it") Italy
-      option(value="za") South Africa
-      option(value="es") Spain
-      option(value="pt") Portugal
-      option(value="us", selected) U.S.A.
-      option(value="uk") United Kingdom
+    h3.sub-title.center Explore and share art in your city.
 
-div.col-md-3
+    row
+        span#locationField.col-md-9(ng-init="init()")
+            input#autocomplete.form-control(placeholder="Enter a city", type="text", details="details")
+
+        span#controls.col-md-3
+            select#country.form-control(ng-model="countryRestrict.country")
+              option(value="all") All
+              option(value="au") Australia
+              option(value="br") Brazil
+              option(value="ca") Canada
+              option(value="fr") France
+              option(value="de") Germany
+              option(value="mx") Mexico
+              option(value="nz") New Zealand
+              option(value="it") Italy
+              option(value="za") South Africa
+              option(value="es") Spain
+              option(value="pt") Portugal
+              option(value="us", selected) U.S.A.
+              option(value="uk") United Kingdom
+

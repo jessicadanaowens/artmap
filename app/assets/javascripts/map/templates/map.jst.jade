@@ -1,9 +1,9 @@
 row
-    div#locationField(ng-init="init()")
-        input#autocomplete.col-md-4(placeholder="Enter a city", type="text", ng-model="formattedAddress")
+    span#locationField.col-md-4(ng-init="init()")
+        input#autocomplete.form-control(placeholder="Enter a city", type="text", ng-model="formattedAddress")
 
-      div#controls
-        select#country.col-md-2
+    span#controls.col-md-1
+        select#country.form-control
           option(value="all") All
           option(value="au") Australia
           option(value="br") Brazil
