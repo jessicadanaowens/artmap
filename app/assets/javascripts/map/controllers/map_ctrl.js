@@ -1,5 +1,5 @@
-angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'ExistingMarkerService', 'NewMarkerService', 'autocompleteService', 'Countries',
-  function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries) {
+angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formattedAddress', 'ExistingMarkerService', 'NewMarkerService', 'autocompleteService', 'Countries', 'Flash',
+  function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries, Flash) {
 
     $scope.init = function init() {
       $scope.markers = [];

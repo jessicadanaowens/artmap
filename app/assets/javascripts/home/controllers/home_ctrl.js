@@ -20,7 +20,7 @@ angular.module('mapApp').controller('homeCtrl', ['$scope', '$state', 'Countries'
     $scope.onPlaceChanged = function onPlaceChanged() {
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
-        $state.go('map', {lon: place.geometry.location["G"], lat: place.geometry.location["K"], formattedAddress: place.formatted_address});
+        $state.go('map', {lon: place.geometry.location["H"], lat: place.geometry.location["L"], formattedAddress: place.formatted_address});
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }
