@@ -12,7 +12,7 @@ angular.module('mapApp', ['ui.router', 'ngResource'])
       })
 
       .state('map', {
-        url: '/rides/:lon/:lat/:formattedAddress',
+        url: '/collections/:lon/:lat/:formattedAddress',
         template: JST['map/templates/map'](),
         controller: 'mapCtrl',
         resolve: {
