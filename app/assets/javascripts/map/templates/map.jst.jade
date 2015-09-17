@@ -21,7 +21,12 @@ div.map-filters
               option(value="uk") United Kingdom
 
 row
-    div#map-canvas.col-md-12
+    div#map-canvas.col-md-8
+
+    div#listing.col-md-4
+      table#resultsTable
+        tbody#results
+
 
 div(style="display: none")
       div#info-content
@@ -30,4 +35,6 @@ div(style="display: none")
 div.alert.alert-info.fade.in.hide
     a.close(data-dismiss="alert", aria-label="close") &times
     p Login or sign up to create and share your art collections
+
+
 

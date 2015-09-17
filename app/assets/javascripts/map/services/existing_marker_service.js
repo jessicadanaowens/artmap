@@ -2,12 +2,35 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
   function ($resource, Marker, $compile) {
     return {
       setup: function setup($scope) {
+        $scope.allMarkers = [];
+        $scope.markers = [];
         $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
 
         $scope.getAndPlaceMarkersOnMap = function getMarkers() {
-          Marker.query(function (markers){
+          if($scope.allMarkers.length == 0) {
+            Marker.query(function (markers){
+              $scope.allMarkers = markers;
+              $scope.placeMarkersOnMap(markers);
+            });
+          } else {
+            clearMarkers();
+            clearList();
+            var markers = $scope.allMarkers;
             $scope.placeMarkersOnMap(markers);
-          });
+          }
+        };
+
+        function clearMarkers() {
+          for (var i = 0; i < $scope.markers.length; i++) {
+            if ($scope.markers[i]) {
+              $scope.markers[i].setMap(null);
+            }
+          }
+          $scope.markers = [];
+        }
+
+        function clearList () {
+          $('div#listing table#resultsTable tbody#results').empty();
         };
 
         $scope.placeMarkersOnMap = function(markers) {
@@ -16,7 +39,6 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
             $scope.markerIcon = $scope.markerPath + $scope.markerLetter + '.png';
 
             $scope.createGoogleMarker(i, markers);
-            setTimeout($scope.dropMarker(i), i * 100);
           }
         };
 
@@ -27,17 +49,25 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
             icon: $scope.markerIcon,
             name: markers[i].name
           });
+
+          setTimeout($scope.dropMarker(i), i * 100);
         };
+        
         $scope.dropMarker = function dropMarker(i) {
           return function() {
             $scope.markers[i].setMap($scope.map);
             google.maps.event.addListener($scope.markers[i], 'click', showInfoWindow);
+            $scope.addMarkerToList($scope.markers[i])
           };
         };
 
         $scope.existingInfoWindow = new google.maps.InfoWindow({
           content: document.getElementById('info-content')
         });
+
+        $scope.addMarkerToList = function addMarkerToList (marker) {
+          $('div#listing table#resultsTable tbody#results').append("<tr class='collection-row'><td>" + marker.name + "</td></tr>")
+        };
 
         function showInfoWindow() {
           var marker = this;

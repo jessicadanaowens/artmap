@@ -2,8 +2,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
   function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries, Flash) {
 
     $scope.init = function init() {
-      $scope.markers = [];
-
       ExistingMarkerService.setup($scope, $scope.markers);
       NewMarkerService.setup($scope, $scope.markers);
       autocompleteService.setup($scope);
@@ -42,11 +40,10 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
     };
 
     $scope.onPlaceChanged = function onPlaceChanged() {
-      $scope.markers = [];
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);
-        $scope.map.setZoom(15);
+        $scope.map.setZoom(8);
         $scope.getAndPlaceMarkersOnMap();
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';

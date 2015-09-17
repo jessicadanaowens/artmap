@@ -67,8 +67,8 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
 
         $scope.saveData = function saveData() {
           $scope.marker.name = $scope.name;
-          $scope.marker.lat = $scope.selectedMarker.position["G"];
-          $scope.marker.lon = $scope.selectedMarker.position["K"];
+          $scope.marker.lat = $scope.selectedMarker.position["H"];
+          $scope.marker.lon = $scope.selectedMarker.position["L"];
           $scope.marker.gallery = true;
           $scope.marker.name = $scope.name;
 
