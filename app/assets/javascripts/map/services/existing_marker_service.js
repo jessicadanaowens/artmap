@@ -14,7 +14,6 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
             });
           } else {
             clearMarkers();
-            clearList();
             var markers = $scope.allMarkers;
             $scope.placeMarkersOnMap(markers);
           }
@@ -28,10 +27,6 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
           }
           $scope.markers = [];
         }
-
-        function clearList () {
-          $('div#listing table#resultsTable tbody#results').empty();
-        };
 
         $scope.placeMarkersOnMap = function(markers) {
           for (var i = 0; i < markers.length; i++) {
@@ -57,17 +52,12 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
           return function() {
             $scope.markers[i].setMap($scope.map);
             google.maps.event.addListener($scope.markers[i], 'click', showInfoWindow);
-            $scope.addMarkerToList($scope.markers[i])
           };
         };
 
         $scope.existingInfoWindow = new google.maps.InfoWindow({
           content: document.getElementById('info-content')
         });
-
-        $scope.addMarkerToList = function addMarkerToList (marker) {
-          $('div#listing table#resultsTable tbody#results').append("<tr class='collection-row'><td>" + marker.name + "</td></tr>")
-        };
 
         function showInfoWindow() {
           var marker = this;

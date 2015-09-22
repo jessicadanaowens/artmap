@@ -1,3 +1,19 @@
 #listing {
   background-color: white;
+  padding: 0px;
+
+  -webkit-box-shadow: 0px 0px 8px 2px #000000;
+  -moz-box-shadow: 0px 0px 8px 2px #000000;
+  box-shadow: 0px 0px 8px 2px #000000;
+}
+
+.list-item {
+  height: 100px;
+  border: 1px solid #cccccc;
+  width: 100%;
+  padding: 10px;
+}
+
+#resultsTable {
+  width: 100%;
 }

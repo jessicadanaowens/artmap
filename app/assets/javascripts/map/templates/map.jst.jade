@@ -21,11 +21,13 @@ div.map-filters
               option(value="uk") United Kingdom
 
 row
-    div#map-canvas.col-md-8
+    div#map-canvas.col-md-10
 
-    div#listing.col-md-4
+    div#listing.col-md-2
       table#resultsTable
-        tbody#results
+        tbody#results(ng-repeat ="marker in markers")
+            tr
+              td.list-item {{marker.name}}
 
 
 div(style="display: none")
