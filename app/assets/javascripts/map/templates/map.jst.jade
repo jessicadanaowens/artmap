@@ -25,7 +25,7 @@ row
 
     div#listing.col-md-2
       table#resultsTable
-        tbody#results(ng-repeat ="marker in markers")
+        tbody#results(ng-repeat ="marker in visibleMarkers")
             tr
               td.list-item {{marker.name}}
 

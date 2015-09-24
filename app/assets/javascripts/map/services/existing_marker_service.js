@@ -2,30 +2,45 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
   function ($resource, Marker, $compile) {
     return {
       setup: function setup($scope) {
-        $scope.allMarkers = [];
-        $scope.markers = [];
         $scope.markerPath = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
 
-        $scope.getAndPlaceMarkersOnMap = function getMarkers() {
+        $scope.getAndPlaceMarkersOnMap = function getMarkers(bounds) {
           if($scope.allMarkers.length == 0) {
             Marker.query(function (markers){
               $scope.allMarkers = markers;
-              $scope.placeMarkersOnMap(markers);
+              var markersInBounds = $scope.markersInBounds(bounds);
+              $scope.placeMarkersOnMap(markersInBounds);
             });
           } else {
             clearMarkers();
-            var markers = $scope.allMarkers;
-            $scope.placeMarkersOnMap(markers);
+            var markersInBounds = $scope.markersInBounds(bounds);
+            $scope.placeMarkersOnMap(markersInBounds);
           }
         };
 
-        function clearMarkers() {
-          for (var i = 0; i < $scope.markers.length; i++) {
-            if ($scope.markers[i]) {
-              $scope.markers[i].setMap(null);
+        $scope.markersInBounds = function markersInBounds(bounds) {
+          var lat, lon, i;
+          var markers = [];
+          i = $scope.allMarkers.length - 1;
+
+          while (i -= 1) {
+            lat = $scope.allMarkers[i].lat;
+            lon = $scope.allMarkers[i].lon;
+            if (bounds.contains(new google.maps.LatLng(lat, lon))) {
+              markers.push($scope.allMarkers[i])
             }
           }
-          $scope.markers = [];
+
+          return markers;
+        };
+
+        function clearMarkers() {
+          for (var i = 0; i < $scope.visibleMarkers.length; i++) {
+            if ($scope.visibleMarkers[i]) {
+              $scope.visibleMarkers[i].setMap(null);
+            }
+          }
+          $scope.visibleMarkers = [];
         }
 
         $scope.placeMarkersOnMap = function(markers) {
@@ -38,7 +53,7 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
         };
 
         $scope.createGoogleMarker = function createGoogleMarker(i, markers) {
-          $scope.markers[i] = new google.maps.Marker({
+          $scope.visibleMarkers[i] = new google.maps.Marker({
             position: new google.maps.LatLng(markers[i].lat, markers[i].lon),
             animation: google.maps.Animation.DROP,
             icon: $scope.markerIcon,
@@ -50,8 +65,8 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
         
         $scope.dropMarker = function dropMarker(i) {
           return function() {
-            $scope.markers[i].setMap($scope.map);
-            google.maps.event.addListener($scope.markers[i], 'click', showInfoWindow);
+            $scope.visibleMarkers[i].setMap($scope.map);
+            google.maps.event.addListener($scope.visibleMarkers[i], 'click', showInfoWindow);
           };
         };
 

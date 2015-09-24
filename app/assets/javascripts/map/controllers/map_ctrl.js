@@ -2,14 +2,16 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
   function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries, Flash, $state) {
 
     $scope.init = function init() {
-      ExistingMarkerService.setup($scope, $scope.markers);
-      NewMarkerService.setup($scope, $scope.markers);
+      ExistingMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers);
+      NewMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers);
       autocompleteService.setup($scope);
       Countries.setup($scope);
 
       $scope.lon = lon;
       $scope.lat = lat;
       $scope.formattedAddress = formattedAddress;
+      $scope.allMarkers = [];
+      $scope.visibleMarkers = [];
 
       $scope.mapOptions =  {
         zoom: 8,
@@ -31,9 +33,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
 
       $scope.idleMapListener = google.maps.event.addListener($scope.map, 'idle', function() {
         $scope.bounds = $scope.map.getBounds();
-        $scope.getAndPlaceMarkersOnMap();
-        $scope.bounds = undefined;
-        google.maps.event.removeListener($scope.idleMapListener);
+        $scope.getAndPlaceMarkersOnMap($scope.bounds);
       });
 
       $scope.createMarkerOnMapClick($scope.map);
@@ -45,7 +45,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
         $scope.map.panTo(place.geometry.location);
         $scope.map.setZoom(8);
         $state.go('map', {lon: place.geometry.location["H"], lat: place.geometry.location["L"], formattedAddress: place.formatted_address}, {inherit:true});
-        $scope.getAndPlaceMarkersOnMap();
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }

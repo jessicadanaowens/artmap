@@ -31,7 +31,8 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
         };
 
         $scope.addSelectedMarkerToMarkers = function addSelectedMarkerToMarkers() {
-          $scope.markers.push($scope.selectedMarker);
+          $scope.allMarkers.push($scope.selectedMarker);
+          $scope.visibleMarkers.push($scope.selectedMarker);
         };
 
         $scope.createInfoWindowOnClick = function createInfoWindowOnClick(map) {
