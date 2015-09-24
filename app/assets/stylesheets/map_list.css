@@ -12,6 +12,25 @@
   border: 1px solid #cccccc;
   width: 100%;
   padding: 10px;
+
+  -webkit-transition-property: background, border-radius;
+  -moz-transition-property: background, border-radius;
+  -o-transition-property: background, border-radius;
+  transition-property: background, border-radius;
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  -o-transition-duration: 1s;
+  transition-duration: 1s;
+  -webkit-transition-timing-function: linear;
+  -moz-transition-timing-function: linear;
+  -o-transition-timing-function: linear;
+  transition-timing-function: linear;
+}
+
+.list-item:hover {
+  background: #ff0073;
+  border-radius: 50%;
+
 }
 
 #resultsTable {
