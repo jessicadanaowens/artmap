@@ -13,6 +13,10 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
             });
           } else {
             clearNonVisibleMarkers(bounds);
+            $scope.$apply(function() {
+              $compile(document.getElementById("infoContent"))($scope)
+            });
+
             //var markersInBounds = $scope.markersInBounds(bounds, $scope.visibleMarkers);
             //$scope.placeMarkersOnMap(markersInBounds);
           }
