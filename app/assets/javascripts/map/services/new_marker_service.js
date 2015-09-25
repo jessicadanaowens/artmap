@@ -4,7 +4,7 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
       setup: function setup($scope) {
         $scope.marker = new Marker({userId: 1});
 
-        $scope.newMarkerForm = "<table id='newMarkerForm'>" +
+        var newMarkerForm = "<table id='newMarkerForm'>" +
           "<h4>Add a gallery, private collection, or artist to the map.</h4>" +
           "<tr><td>Name:</td> <td><input type='text' id='name' ng-model='name'/> </td> </tr>" +
           "<tr><td>Type:</td> <td><select id='type'>" +
@@ -13,8 +13,6 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
           "<option value='artist'>artist</option>" +
           "</select> </td></tr>" +
           "<tr><td></td><td><input type='button' value='Save & Close' ng-click='saveData()'/></td></tr>";
-
-        $scope.infowindow = new google.maps.InfoWindow({content: $scope.newMarkerForm});
 
         $scope.createMarkerOnMapClick = function createMarkerOnMapClick(map) {
           google.maps.event.addListener(map, "click", function (event) {
@@ -32,11 +30,12 @@ angular.module('mapApp').service('NewMarkerService', [ '$resource', 'Marker', 'F
 
         $scope.addSelectedMarkerToMarkers = function addSelectedMarkerToMarkers() {
           $scope.allMarkers.push($scope.selectedMarker);
-          $scope.visibleMarkers.push($scope.selectedMarker);
+          $scope.markersInBounds.push($scope.selectedMarker)
         };
 
         $scope.createInfoWindowOnClick = function createInfoWindowOnClick(map) {
           $scope.newFormListener = google.maps.event.addListener($scope.selectedMarker, "click", function (event) {
+            $scope.infowindow = new google.maps.InfoWindow({content: newMarkerForm});
             $scope.infowindow.open(map, $scope.selectedMarker);
             $scope.$apply(function() {
               $compile(document.getElementById("newMarkerForm"))($scope)

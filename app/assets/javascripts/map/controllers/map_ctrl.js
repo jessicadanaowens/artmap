@@ -2,8 +2,8 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
   function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries, Flash, $state) {
 
     $scope.init = function init() {
-      ExistingMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers, $scope.nonVisibleMarkers);
-      NewMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers);
+      ExistingMarkerService.setup($scope, $scope.allMarkers, $scope.markersInBounds);
+      NewMarkerService.setup($scope, $scope.allMarkers, $scope.markersInBounds);
       autocompleteService.setup($scope);
       Countries.setup($scope);
 
