@@ -8,39 +8,47 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
           if($scope.allMarkers.length == 0) {
             Marker.query(function (markers){
               $scope.allMarkers = markers;
-              var markersInBounds = $scope.markersInBounds(bounds);
+              var markersInBounds = $scope.markersInBounds(bounds, $scope.allMarkers);
               $scope.placeMarkersOnMap(markersInBounds);
             });
           } else {
-            clearMarkers();
-            var markersInBounds = $scope.markersInBounds(bounds);
-            $scope.placeMarkersOnMap(markersInBounds);
+            clearNonVisibleMarkers(bounds);
+            //var markersInBounds = $scope.markersInBounds(bounds, $scope.visibleMarkers);
+            //$scope.placeMarkersOnMap(markersInBounds);
           }
         };
 
-        $scope.markersInBounds = function markersInBounds(bounds) {
-          var lat, lon, i;
-          var markers = [];
-          i = $scope.allMarkers.length - 1;
+        $scope.markersInBounds = function markersInBounds(bounds, markers) {
+          var lat, lon, i, length;
+          var markersInBounds = [];
+          length = markers.length - 1;
 
-          while (i -= 1) {
-            lat = $scope.allMarkers[i].lat;
-            lon = $scope.allMarkers[i].lon;
+          for(i = length; i > -1; i--) {
+            lat = markers[i].lat;
+            lon = markers[i].lon;
             if (bounds.contains(new google.maps.LatLng(lat, lon))) {
-              markers.push($scope.allMarkers[i])
+              markersInBounds.push(markers[i])
             }
           }
 
-          return markers;
+          return markersInBounds;
         };
 
-        function clearMarkers() {
-          for (var i = 0; i < $scope.visibleMarkers.length; i++) {
-            if ($scope.visibleMarkers[i]) {
+        function clearNonVisibleMarkers(bounds) {
+          var visibleMarkers = [];
+          var length = $scope.visibleMarkers.length;
+          var lat, lon;
+
+          for (var i = 0; i < length; i++) {
+            lat = $scope.visibleMarkers[i].position["H"];
+            lon = $scope.visibleMarkers[i].position["L"];
+            if (bounds.contains(new google.maps.LatLng(lat, lon))) {
+              visibleMarkers.push($scope.visibleMarkers[i]);
+            } else {
               $scope.visibleMarkers[i].setMap(null);
             }
           }
-          $scope.visibleMarkers = [];
+          $scope.visibleMarkers = visibleMarkers;
         }
 
         $scope.placeMarkersOnMap = function(markers) {

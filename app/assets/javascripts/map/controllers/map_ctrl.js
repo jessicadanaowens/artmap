@@ -2,7 +2,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
   function ($scope, lon, lat, formattedAddress, ExistingMarkerService, NewMarkerService, autocompleteService, Countries, Flash, $state) {
 
     $scope.init = function init() {
-      ExistingMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers);
+      ExistingMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers, $scope.nonVisibleMarkers);
       NewMarkerService.setup($scope, $scope.allMarkers, $scope.visibleMarkers);
       autocompleteService.setup($scope);
       Countries.setup($scope);
@@ -12,6 +12,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
       $scope.formattedAddress = formattedAddress;
       $scope.allMarkers = [];
       $scope.visibleMarkers = [];
+      $scope.nonVisibleMarkers = [];
 
       $scope.mapOptions =  {
         zoom: 8,
@@ -44,7 +45,6 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);
         $scope.map.setZoom(8);
-        $state.go('map', {lon: place.geometry.location["H"], lat: place.geometry.location["L"], formattedAddress: place.formatted_address}, {inherit:true});
       } else {
         document.getElementById('autocomplete').placeholder = 'Enter a city';
       }
