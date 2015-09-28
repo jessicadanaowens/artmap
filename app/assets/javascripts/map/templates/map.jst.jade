@@ -27,8 +27,7 @@ row
       table#resultsTable
         tbody#results(ng-repeat ="marker in markersInBounds track by $index")
             tr
-              td.list-item {{marker.name}}
-
+              td.list-item(ng-click="showInfoWindow(marker)") {{marker.name}}
 
 div(style="display: none")
       div#info-content

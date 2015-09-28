@@ -7,9 +7,8 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
         $scope.getAndPlaceMarkersOnMap = function getMarkers(bounds) {
           if($scope.allMarkers.length == 0) {
             Marker.query(function (markers){
-              $scope.allMarkers = markers;
-              $scope.placeMarkersOnMap();
-              $scope.findMarkersInBounds(bounds, $scope.allMarkers);
+              $scope.placeMarkersOnMap(markers);
+              $scope.findMarkersInBounds(bounds);
             });
           } else {
             $scope.findMarkersInBounds(bounds, $scope.allMarkers);
@@ -21,26 +20,26 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
           }
         };
 
-        $scope.findMarkersInBounds = function findMarkersInBounds(bounds, markers) {
+        $scope.findMarkersInBounds = function findMarkersInBounds(bounds) {
           var lat, lon, i, length;
           $scope.markersInBounds = [];
-          length = markers.length - 1;
+          length = $scope.allMarkers.length - 1;
 
           for(i = length; i > -1; i--) {
-            lat = markers[i].lat;
-            lon = markers[i].lon;
+            lat = $scope.allMarkers[i].position["H"];
+            lon = $scope.allMarkers[i].position["L"];
             if (bounds.contains(new google.maps.LatLng(lat, lon))) {
-              $scope.markersInBounds.push(markers[i])
+              $scope.markersInBounds.push($scope.allMarkers[i])
             }
           }
         };
 
-        $scope.placeMarkersOnMap = function() {
-          for (var i = 0; i < $scope.allMarkers.length; i++) {
+        $scope.placeMarkersOnMap = function(markers) {
+          for (var i = 0; i < markers.length; i++) {
             $scope.markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
             $scope.markerIcon = $scope.markerPath + $scope.markerLetter + '.png';
 
-            $scope.createGoogleMarker(i, $scope.allMarkers);
+            $scope.createGoogleMarker(i, markers);
           }
         };
 
@@ -53,12 +52,13 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
           });
 
           setTimeout($scope.dropMarker(marker), i * 100);
+          google.maps.event.addListener(marker, 'click', showInfoWindow);
+          $scope.allMarkers.push(marker);
         };
         
         $scope.dropMarker = function dropMarker(marker) {
           return function() {
             marker.setMap($scope.map);
-            google.maps.event.addListener(marker, 'click', showInfoWindow);
           };
         };
 
@@ -74,7 +74,12 @@ angular.module('mapApp').service('ExistingMarkerService', [ '$resource', 'Marker
           $scope.$apply(function() {
             $compile(document.getElementById("infoContent"))($scope)
           });
-        }
+        };
+
+        $scope.showInfoWindow = function showInfoWindow (marker) {
+          $scope.existingMarker = marker;
+          google.maps.event.trigger(marker, 'click');
+        };
       }
     }
   }]);

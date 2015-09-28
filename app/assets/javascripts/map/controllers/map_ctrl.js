@@ -41,7 +41,7 @@ angular.module('mapApp').controller('mapCtrl', ['$scope', 'lon', 'lat', 'formatt
     };
 
     $scope.onPlaceChanged = function onPlaceChanged() {
-      var bounds
+      var bounds;
       var place = $scope.autocomplete.getPlace();
       if (place.geometry) {
         $scope.map.panTo(place.geometry.location);
