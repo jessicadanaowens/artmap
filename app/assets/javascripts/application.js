@@ -19,6 +19,7 @@
 //= require angular-ui-router
 
 //= require map_app
+//= require dashboard_app
 
 //= require tilt-jade/runtime
 
