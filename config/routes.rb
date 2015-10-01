@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   post "/markers" => "markers#create"
   get "/markers" => "markers#index"
   get "/dashboard" => "dashboard#index"
+
+  post "/pieces" => "pieces#create"
 end

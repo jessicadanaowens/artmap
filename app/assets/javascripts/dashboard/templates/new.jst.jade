@@ -1,3 +1,33 @@
-div.new-form
-    label.control-label Select File
-    input#input-1.file(type="file")
+div.new-form.form(role="form").col-md-6
+
+    div.form-group
+        label(for="image") Select File:
+        input#image.file.form-control(type="file", ng-model="piece.image")
+
+    div.form-group
+        label(for="title") Title:
+        input#title.form-control(type="text", ng-model="piece.title")
+
+    div.form-group
+        label(for="medium") Medium:
+        input#medium.form-control(type="text", ng-model="piece.medium")
+
+    div.form-group
+        label(for="artist") Artist First Name:
+        input#artist.form-control(type="text", ng-model="piece.artistFirstName")
+        
+    div.form-group
+        label(for="artist") Artist Last Name:
+        input#artist.form-control(type="text", ng-model="piece.artistLastName")
+
+    div.form-group
+        label(for="purchase_price") Purchase Price:
+        input#purchase-price.form-control(type="integer", ng-model="piece.purchasePrice")
+
+    button.form-control.btn.btn-primary(type="submit", ng-click="addPiece()") Submit
+
+
+
+
+
+
